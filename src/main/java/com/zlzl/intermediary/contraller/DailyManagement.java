@@ -17,5 +17,13 @@ import java.util.List;
 @Controller
 @RequestMapping("daily")
 public class DailyManagement {
+    @Resource
+    private AdministratorsRepository administratorsRepository;
+@RequestMapping("kiki")
+    public String hello(Model model){
+        List<Administrators> list=administratorsRepository.findAll();
+        model.addAttribute("list",list);
+        return "test";
+    }
 
 }

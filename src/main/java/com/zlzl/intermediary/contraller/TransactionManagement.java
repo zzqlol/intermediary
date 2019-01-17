@@ -1,5 +1,6 @@
 package com.zlzl.intermediary.contraller;
 
+import com.zlzl.intermediary.repository.ContractRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,5 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("transaction")
 public class TransactionManagement {
+    private ContractRepository contractRepository;
+
 
 }
