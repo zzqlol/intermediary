@@ -13,16 +13,6 @@ public class Administrators {
     private String admPassword;
     private String admName;
 
-    @Override
-    public String toString() {
-        return "Administrators{" +
-                "admId=" + admId +
-                ", dmUsername='" + dmUsername + '\'' +
-                ", admPassword='" + admPassword + '\'' +
-                ", admName='" + admName + '\'' +
-                '}';
-    }
-
     @Id
     @Column(name = "adm_id")
     public int getAdmId() {

@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * 对于日常管理子页面的所有请求都进入这个页面
+ * 日常管理请求都以daily开头
+ * 所属页面放在daily下
+ */
 @Controller
-public class Testth {
-    @Resource
-    private AdministratorsRepository administratorsRepository;
-    @RequestMapping
-    public String testCon(Model model) {
-       List<Administrators> list=administratorsRepository.findAll();
-       model.addAttribute("list",list);
-       return "test";
-    }
+@RequestMapping("daily")
+public class DailyManagement {
+
 }
