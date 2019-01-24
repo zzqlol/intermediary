@@ -11,9 +11,8 @@ import javax.annotation.Resource;
 @SpringBootTest
 public class Test1 {
     @Resource
-    private AdministratorsRepository administratorsRepository;
     @Test
     public void test(){
-        System.out.println(administratorsRepository.findAll());
+
     }
 }
