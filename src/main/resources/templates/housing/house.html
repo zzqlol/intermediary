@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<style>
+			#xiangxi,#zidong,#p{
+				display: none;
+			}
+		</style>
+		<script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+		<script th:src="@{/js/bootstrap.min.js}"></script>
+		<script th:src="@{/js/commonAll.js}"></script>
+		<link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/css/style1.css}" rel="stylesheet" type="text/css" />
+		<link th:href="@{/css/default.css}" rel="stylesheet" type="text/css" />
+
+		<!--文件上传js-->
+		<link rel="stylesheet" type="text/css" th:href="@{/jquery-easyui-1.7.0/themes/default/easyui.css}">
+		<link rel="stylesheet" type="text/css" th:href="@{/jquery-easyui-1.7.0/themes/icon.css}">
+		<script type="text/javascript" th:src="@{/jquery-easyui-1.7.0/jquery.min.js}"></script>
+		<script type="text/javascript" th:src="@{/jquery-easyui-1.7.0/jquery.easyui.min.js}"></script>
+		<script type="text/javascript" th:src="@{/jquery-easyui-1.7.0/locale/easyui-lang-zh_CN.js}"></script>
+	</head>
+	<body>
+
+		<div>
+			<input type="button" value="添加" onclick="modify2()" class="layui-btn"/>
+			<input type="button" value="修改" onclick="updatetable()" class="layui-btn"/>
+			<input type="button" value="删除" onclick="deletehdid() " class="layui-btn"/>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-import" plain="true" onclick="openUploadFileDialog()">用模版批量导入数据</a>
+		</div>
+		<div>
+			输入小区名称或所处地区查询：<input type="text" id="like" class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>
+			<input type="button" value="搜索" onclick="namelike()" class="layui-btn layui-btn-normal" />
+			<input type="checkbox" id="lease" />只显示出租信息<input type="checkbox" id="sell" />只显示出售信息
+			<input type="checkbox" id="state"/>只显示未成交信息<input type="checkbox" id="time"/>只显示最近
+			<input type="text" value="30" size="1" id="timedata" class="layui-input" autocomplete="false" style="width: 50px; display: inline-block;"/>天的消息
+			<input type="checkbox" id="lose"/>显示失效信息<br />
+		</div>
+		<div th:fragment="div1" id="div1">
+		<div>
+			<table class="layui-table">
+				<thead>
+				<tr>
+					<th>登记日期</th>
+					<th>置业顾问</th>
+					<th>当前状态</th>
+					<th>户型结构</th>
+					<th>建筑面积</th>
+					<th>楼层/层高</th>
+					<th>所属区域</th>
+					<th>所在小区</th>
+					<th>物业用途</th>
+					<th>装修程度</th>
+					<th>具体地址</th>
+				</tr>
+				</thead>
+				<tr th:each="house:${list}" th:attr="id='l'+${house.hdId}" th:onclick="'trclick('+${house.hdId}+')'">
+					<td  th:text="${house.registerDate}"></td>
+					<td  th:text="${house.uname}"></td>
+					<td  th:text="${house.state}"></td>
+					<td  th:text="${house.structure}"></td>
+					<td  th:text="${house.area}"></td>
+					<td  th:text="${house.floorHeight}+'/'+${house.floor}"></td>
+					<td  th:text="${house.rname}"></td>
+					<td  th:text="${house.vname}"></td>
+					<td  th:text="${house.purpose}"></td>
+					<td  th:text="${house.decoration}"></td>
+					<td  th:text="${house.detailedAdd}"></td>
+				</tr>
+			</table>
+			<p th:text="${pagelength}" id="p"></p>
+			<p th:text="|共${pagesize}条数据|"></p>
+			<p th:text="|共${pagelength}页,当前为第${pagenum}页|"></p>
+			<input type="button" value="上一页" onclick="toppage()" class="layui-btn"/>
+			<span th:each="pagenum1:${#numbers.sequence(1,pagelength)}">
+             <input type="submit" name="pageid" th:attr="value=${pagenum1}"  th:onclick="'cheak('+${pagenum1}+')'" class="layui-btn"/>
+             </span>
+			<input type="button" value="下一页" onclick="nextpage()" class="layui-btn"/>
+		</div>
+		<div id="div2" th:fragment="div2">
+			<input type="button" value="房源详细信息" id="detailed" onclick="detailed()" class="layui-btn layui-btn-primary"/>
+			<input type="button" value="房源保密信息" id="secrecy" onclick="secrecy()" 	class="layui-btn layui-btn-primary"/>
+			<input type="button" value="自动匹配的客户" id="automatic" onclick="automatic()" class="layui-btn layui-btn-primary"/>
+			<div id="chuzu">
+				<div style="float: left;width: 800px">
+				<table class="layui-table">
+					<tr><td>出租价格：<input type="text" size="2" readonly="readonly" th:value="${list.get(0).rentalPrice}" class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;">元/月，
+						出租说明：<input type="text" readonly="readonly" th:value="${list.get(0).rentalExplain}" class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;">
+					</td></tr>
+					<tr><td>出售价格：<input type="text" size="2" readonly="readonly" th:value="${list.get(0).sellPrice}"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;">万元，
+						出售说明：<input type="text" readonly="readonly" th:value="${list.get(0).sellExplain}"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;">
+					</td></tr>
+					<tr><td>当前状态：<input type="text" readonly="readonly" th:value="${list.get(0).state}"  class="layui-input" autocomplete="off" style="width: 100px; display: inline-block;">
+						置业顾问：<input type="text" readonly="readonly" th:value="${list.get(0).uname}"  class="layui-input" autocomplete="off" style="width: 100px; display: inline-block;">
+						物业用途：<input type="text" readonly="readonly" th:value="${list.get(0).purpose}"  class="layui-input" autocomplete="off" style="width: 100px; display: inline-block;">
+					</td></tr>
+					<tr><td>所处区域：<input type="text" readonly="readonly" th:value="${list.get(0).rname}"  class="layui-input" autocomplete="off" style="width: 100px; display: inline-block;">
+						装修程度：<input type="text" readonly="readonly" th:value="${list.get(0).decoration}"  class="layui-input" autocomplete="off" style="width: 100px; display: inline-block;">
+						楼层：<input type="text" size="2" readonly="readonly" th:value="${list.get(0).floorHeight}+'/'+${list.get(0).floor}"  class="layui-input" autocomplete="off" style="width: 100px; display: inline-block;">
+					</td></tr>
+					<tr><td>户型结构：<input type="text" readonly="readonly" th:value="${list.get(0).structure}"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;">
+						建筑面积：<input type="text" size="1" readonly="readonly" th:value="${list.get(0).area}"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"></td></tr>
+				</table>
+				</div>
+				<div style="float: left;width: 400px">
+				<table class="layui-table">
+					<tr><td>基础设施：<input type="text" readonly="readonly" th:value="${list.get(0).infrastructure}"  class="layui-input" autocomplete="off" style="width: 300px; display: inline-block;"></td></tr>
+					<tr><td>配套设施：<input type="text" readonly="readonly" th:value="${list.get(0).facilities}"  class="layui-input" autocomplete="off" style="width: 300px; display: inline-block;"></td></tr>
+					<tr><td>具体地址：<input type="text" readonly="readonly" th:value="${list.get(0).specificAddress}"  class="layui-input" autocomplete="off" style="width: 300px; display: inline-block;"></td></tr>
+					<tr><td>详细信息：<input type="text" readonly="readonly" th:value="${list.get(0).detailed}" class="layui-input" autocomplete="off" style="width: 300px;display: inline-block;"></td></tr>
+				</table>
+				</div>
+			</div>
+            <div id="xiangxi">
+            	<table>
+            		<tr><td>业主姓名：<input type="text" readonly="readonly" th:value="${list.get(0).owner}" class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"> 联系电话：<input type="text" readonly="readonly" th:value="${list.get(0).telephone}" class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"> 联系手机：<input type="text" readonly="readonly" th:value="${list.get(0).mobilePhone}" class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"></td></tr>
+            		<tr><td>具体位置：<input type="text" readonly="readonly" th:value="${list.get(0).specificAddress}" class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"></td></tr>
+            	</table>
+            </div>
+             <div id="zidong">
+            	<table class="layui-table">
+					<thead>
+            		<tr>
+            		<th>客户姓名</th>
+            		<th>登记日期</th>
+					<th>置业顾问</th>
+					<th>当前状态</th>
+					<th>需求面积</th>
+					<th>需求地点</th>
+					<th>户型结构</th>
+					<th>装修程度</th>
+					</tr>
+					</thead>
+                    <tr th:each="customers:${customer}">
+                        <td th:text="${customers.cname}"></td>
+                        <td th:text="${customers.inputDate}"></td>
+                        <td th:text="${customers.uname}"></td>
+                        <td th:text="${customers.cusState}"></td>
+                        <td th:text="${customers.area}"></td>
+                        <td th:text="${customers.rname}"></td>
+                        <td th:text="${customers.structure}"></td>
+                        <td th:text="${customers.decoration}"></td>
+                    </tr>
+            	</table>
+            </div>
+		</div>
+	</div>
+		<script th:src="@{/js/jquery.dcjqaccordion.2.7.js}" class="include"></script>
+		<script th:src="@{/js/jquery.nicescroll.js}"></script>
+		<script th:src="@{/js/jquery.sparkline.js}"></script>
+		<script th:src="@{/js/common-scripts.js}"></script>
+		<script th:src="@{/js/sparkline-chart.js}"></script>
+		<!--上传文件隐藏代码-->
+		<div id="dlg2" class="easyui-dialog" style="width:400px;height:180px;padding:10px 20px"
+			 closed="true" buttons="#dlg-buttons2">
+			<form id="uploadForm" action="daoru" method="post" enctype="multipart/form-data">
+				<table>
+					<tr>
+						<td>上传文件：</td>
+						<td><input type="file" name="userUploadFile"></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+
+		<div id="dlg-buttons2">
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="uploadFile()">上传</a>
+			<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg2').dialog('close')">关闭</a>
+		</div>
+		<!-- 隐藏代码盒子 S -->
+		<div id="displayBox">
+			<div class="hd"><a onclick="closethis()">×</a><h3></h3></div>
+			<div class="bd">
+				<iframe scrolling="yse" src="" frameborder="0"></iframe>
+			</div>
+		</div>
+		<!--弹出窗口-->
+		<script th:inline="javascript">
+
+			//文件上传
+            function openUploadFileDialog(){
+                $("#dlg2").dialog('open').dialog('setTitle','批量导入数据');
+            }
+
+            function uploadFile() {
+                $("#uploadForm").form("submit", {
+                    success: function (result) {
+
+                        if (result!="sucess"){
+                            $.messager.alert("系统提示","上传失败");
+                        } else {
+                            $.messager.alert("系统提示", "上传成功");
+                            $("#dlg2").dialog("close");
+                            $("#tablelist").datagrid("reload");
+                        }
+                    }
+                });
+            }
+
+            //页面调整内容
+			var jump=-1;
+			var page=[[${pagenum}]];
+			var pagenum=[[${pagelength}]];
+			var like=$("#like").val();
+			var sell=$("#sell").is(":checked");
+			var lease=$("#lease").is(":checked");
+            var state=$("#state").is(":checked");
+            var time=$("#time").is(":checked");
+            var timedata=$("#timedata").val();
+            var lose=$("#lose").is(":checked");
+            $(function(){
+                $("#lease").bind("click",function(){
+                    lease=$("#lease").is(":checked");
+                    $("#sell").prop("checked",false);
+                    sell=$("#sell").is(":checked");
+                    like=$("#like").val();
+                    ajax(page);
+                });
+                $("#sell").bind("click",function(){
+                    sell=$("#sell").is(":checked");
+                    $("#lease").prop("checked",false);
+                    lease=$("#lease").is(":checked");
+                    like=$("#like").val();
+                    ajax(page);
+                });
+                $("#state").bind("click",function(){
+                    state=$("#state").is(":checked");
+                    $("#lose").prop("checked",false);
+                    lose=$("#lose").is(":checked");
+                    like=$("#like").val();
+                    ajax(page);
+                });
+                $("#time").bind("click",function(){
+                    time=$("#time").is(":checked");
+                    timedata=$("#timedata").val();
+                    like=$("#like").val();
+                    ajax(page);
+                });
+                $("#lose").bind("click",function(){
+                    lose=$("#lose").is(":checked");
+                    $("#state").prop("checked",false);
+                    state=$("#state").is(":checked");
+                    like=$("#like").val();
+                    ajax(page);
+                });
+
+            });
+
+            function detailed() {
+                $("#chuzu").css("display","block");
+                $("#xiangxi").css("display","none");
+                $("#zidong").css("display","none");
+            }
+            function secrecy() {
+                $("#xiangxi").css("display","block");
+                $("#chuzu").css("display","none");
+                $("#zidong").css("display","none");
+            }
+            function automatic() {
+                $("#zidong").css("display","block");
+                $("#chuzu").css("display","none");
+                $("#xiangxi").css("display","none");
+            }
+            function namelike() {
+				like=$("#like").val();
+				ajax(page);
+            }
+            function toppage() {
+				if(page-1>0){
+				    ajax(page-1);
+				    page=page-1;
+				}
+
+            }
+            function nextpage() {
+                pagenum=$("#p").text();
+                if((page+1)<=pagenum){
+                    ajax(page+1);
+                    page=page+1;
+                }
+
+            }
+
+            function cheak(num) {
+                ajax(num);
+                page=num;
+            }
+            function trclick(num){
+                $("tr").css("backgroundColor","white");
+				$("#l"+num).css("backgroundColor","#98F5FF");
+                modify(num);
+				if(jump==num){
+                    modify1(num);
+				}
+				jump=num;
+            }
+            function updatetable() {
+                $("tr").css("backgroundColor","white");
+                $("#l"+jump).css("backgroundColor","blue");
+                modify1(jump);
+            }
+            function deletehdid() {
+                var r=confirm("您确定要删除吗？\n删除则是将状态改为失效");
+                if (r==true)
+                {
+                    $.ajax({
+                        url:"delete.do",
+                        type:"post",
+                        data:{
+                            num:jump
+                        },
+                        success:function (data) {
+                            alert("成功修改");
+                            ajax(page);
+                        }
+                    })
+                }
+            }
+            function modify2(){
+                $("#displayBox h3").text("房源增加页面");
+                $("#displayBox").css("height","600px");
+                $("#displayBox iframe").css("height","580px");
+                $("#displayBox iframe").attr("src","insert");
+                $("#displayBox").show();
+            }
+            function modify1(num){
+                $("#displayBox h3").text("房源修改页面");
+                $("#displayBox").css("height","600px");
+                $("#displayBox iframe").css("height","580px");
+                $("#displayBox iframe").attr("src","update1.do?num="+num);
+                $("#displayBox").show();
+            }
+            //当前效果代码
+            $("#displayBox .hd a").click(function(){ $("#displayBox").hide(); });
+                //$("#displayBox iframe").attr("src","picshow.html");
+            //关闭隐藏盒子
+            function closethis() {
+                $("#displayBox").hide();
+                ajax(page);
+            }
+
+            function modify(num) {
+                $.ajax({
+                    url:"updataId.do",
+                    type:"post",
+                    data:{
+                        num:num
+                    },
+                    success:function (data) {
+                        $("#div2").html(data);
+                    }
+                })
+            }
+            function ajax(page) {
+                $.ajax({
+                    url:"pushdata.do",
+                    type:"post",
+                    data:{
+                        like:like,sell:sell,lease:lease,state:state,time:time,timedata:timedata,lose:lose,page:page
+                    },
+                    success:function (data) {
+                        $("#div1").html(data);
+                    }
+                });
+            }
+		</script>
+	</body>
+</html>

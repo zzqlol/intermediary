@@ -18,7 +18,7 @@ public class Customer {
     private Integer rid;
     private String decoration;
     private String structure;
-    private Integer area;
+    private String area;
     private String facilities;
     private String infrastructure;
     private String seekPrice;
@@ -128,11 +128,11 @@ public class Customer {
 
     @Basic
     @Column(name = "area")
-    public Integer getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(Integer area) {
+    public void setArea(String area) {
         this.area = area;
     }
 

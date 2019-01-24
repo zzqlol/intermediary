@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" th:src="@{/js/laydate/laydate.js}"></script>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <title>Title</title>
+</head>
+<body>
+
+<input type="text"id="test" name="time"/><input type="button" value="搜索" onclick="updatesheet()">
+<script>
+    laydate.render({
+        elem: '#test'
+        ,type: 'year'
+    });
+</script>
+<div id="container" style="width: 700px; height: 500px; margin: 0 auto"></div>
+<script>
+    var statf;
+    var map;
+    $(document).ready(function() {
+        ajax("2018")
+    });
+    function updatesheet() {
+        ajax($("#test").val());
+    }
+    function  ajax(time) {
+        $.ajax({
+            url:"update.do",
+            type:"post",
+            data:{
+                time:time
+            },
+            success:function (data) {
+                console.log(data);
+                statf=data[0];
+                map=data[1];
+                var chart = {
+                    type: 'column'
+                };
+                var title = {
+                    text: '每月交易额'
+                };
+
+                var xAxis = {
+                    categories: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                    crosshair: true
+                };
+                var yAxis = {
+                    min: 0,
+                    title: {
+                        text: '交易额/元'
+                    }
+                };
+                var plotOptions = {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                };
+                var tooltip = {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f}元</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                };
+                var credits = {
+                    enabled: false
+                };
+
+                var series= new Array();
+                for(var i=0;i<statf.length;i++){
+                    series[i]={};
+                    series[i].name=statf[i].uname;
+                    series[i].data=map[statf[i].uname];
+                }
+                var json = {};
+                json.chart = chart;
+                json.title = title;
+                json.xAxis = xAxis;
+                json.tooltip = tooltip;
+                json.yAxis = yAxis;
+                json.series = series;
+                json.plotOptions = plotOptions;
+                json.credits = credits;
+                $('#container').highcharts(json);
+            }
+        });
+    }
+</script>
+</body>
+</html>

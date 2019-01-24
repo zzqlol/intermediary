@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" th:src="@{/js/jquery-1.8.3.min.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/jquery.SuperSlide.2.1.js}" ></script>
+    <link rel="stylesheet" th:href="@{/css/common_style.css}" type="text/css" />
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css" />
+    <style>
+        #sure{
+            display: none;
+        }
+    </style>
+    <script th:inline="javascript">
+        $(function () {
+            if([[${success}]]=="success"){
+                alert("成功保存");
+                parent.closethis();
+            }
+        })
+        function add1() {
+            $("#add").css("display","none");
+            $("#sure").css("display","block");
+            var tr=$("<tr><td><input type='text' name='vname' id='vname'  class=\"layui-input\" autocomplete=\"off\" style=\"width: 100px; display: inline-block;\"></td></tr>");
+            $("table").append(tr);
+
+        }
+
+        function suer1() {
+            if($("#vname").val()!=""){
+                $.ajax({
+                    url:"findvname.do",
+                    type:"post",
+                    data:{
+                        vname:$("#vname").val()
+                    },
+                    success:function (data) {
+                        if(data!="success"){
+                            alert("该小区已存在!");
+                        }
+                        else {
+                            $("#postvillage").submit();
+                        }
+                    }
+                })
+            }
+        }
+    </script>
+</head>
+<body>
+<div>
+    <form action="addvillage.do" id="postvillage">
+    <table>
+        <tr>
+            <td>小区名</td>
+        </tr>
+        <tr th:each="village:${villages}">
+            <td th:text="${village.vname}"></td>
+        </tr>
+    </table>
+    <input type="button" value="增加" id="add" onclick="add1()" class="layui-btn"/>
+    <input type="button" value="确定" id="sure" onclick="suer1()" class="layui-btn"/>
+    </form>
+</div>
+</body>
+</html>

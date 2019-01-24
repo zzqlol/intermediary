@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" th:src="@{/js/laydate/laydate.js}"></script>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/commonAll.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/style1.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/default.css}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #hide{
+            display: none;
+        }
+    </style>
+    <script th:inline="javascript">
+        $(function () {
+            if([[${success}]]=="success"){
+                alert("成功添加");
+                parent.closethis();
+            }
+        })
+    </script>
+</head>
+<body>
+<div th:fragment="div1" id="div1">
+    <form action="/housing/insertHouse.do">
+
+        <table class="layui-table">
+            <tr>
+                <td>登记日期：<input  name="registerDate" id="date"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/>
+                    <script>
+                        laydate.render({
+                            elem:"#date",
+                            type:'date'
+                        })
+                    </script></td>
+                <td>当前状态：<select  name="state">
+                    <option  value="正常状态">正常状态</option>
+                    <option  value="已成交">已成交</option>
+                    <option  value="已出租">已出租</option>
+                    <option  value="已失效">已失效</option>
+                </select></td>
+                <td>置业顾问：<select  name="uid">
+                    <option th:each="staffs:${staff}"  th:value="${staffs.uid}" th:text="${staffs.uname}"></option>
+                </select></td>
+                <td>物业用途：<select   name="purpose">
+                    <option  value="住宅">住宅</option>
+                    <option  value="办公">办公</option>
+                    <option  value="商用">商用</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td >所在小区：<select   name="vid">
+                    <option th:each="village:${villages}"  th:value="${village.vid}" th:text="${village.vname}"></option>
+                </select><input type="button" id="vid" value="+" onclick="modify()"/></td>
+                <td>所在区域：<select   name="rid">
+                    <option th:each="region:${regions}"  th:value="${region.rid}" th:text="${region.rname}"></option>
+                </select><input type="button" id="rid" value="+" onclick="modify1()" /></td>
+                <td>建筑面积：<input  name="area"  class="layui-input" autocomplete="off" style="width: 100px; display: inline-block;"/></td>
+                <td>装修程度：<select   name="decoration">
+                    <option value="毛坯">毛坯</option>
+                    <option  value="普装">普装</option>
+                    <option  value="精装">精装</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td colspan="2">户型结构：<select   name="first">
+                    <option  value="一">一</option>
+                    <option  value="二">二</option>
+                    <option  value="三">三</option>
+                    <option  value="四">四</option>
+                    <option  value="五">五</option>
+                    <option  value="六">六</option>
+                    <option  value="七">七</option>
+                </select>室
+                    <select   name="second">
+                        <option  value="零">零</option>
+                        <option  value="一">一</option>
+                        <option  value="二">二</option>
+                        <option  value="三">三</option>
+                        <option  value="四">四</option>
+                    </select>厅
+                    <select   name="third">
+                        <option  value="零">零</option>
+                        <option  value="一">一</option>
+                        <option  value="二">二</option>
+                        <option  value="三">三</option>
+                        <option  value="四">四</option>
+                    </select>卫
+                    <select   name="fourth">
+                        <option  value="零">零</option>
+                        <option  value="一">一</option>
+                        <option  value="二">二</option>
+                        <option  value="三">三</option>
+                        <option  value="四">四</option>
+                    </select>阳</td>
+                <td>楼层高度：<input  name="floor"  class="layui-input" autocomplete="off" style="width: 100px; display: inline-block;"/></td>
+                <td>所在层数：<input  name="floorHeight"  class="layui-input" autocomplete="off" style="width: 100px; display: inline-block;"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">出租价格：<input  name="rentalPrice"   class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/>元/月</td>
+                <td colspan="2">出租说明：<input  name="rentalExplain"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">出售价格：<input  name="sellPrice"   class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/>万元</td>
+                <td colspan="2">出售说明：<input  name="sellExplain"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">基础设施：<input  name="infrastructure"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/></td>
+                <td colspan="2">配套设施：<input  name="facilities"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">业主名称：<input  name="owner"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/></td>
+                <td colspan="2">联系电话：<input  name="telephone"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">联系手机：<input  name="mobilePhone"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/></td>
+                <td colspan="2">具体地址：<input  name="specificAddress"  class="layui-input" autocomplete="off" style="width: 200px; display: inline-block;"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">详细地址：<input  name="detailedAdd"  class="layui-input" autocomplete="off" style="width: 300px; display: inline-block;"/></td>
+                <td colspan="2">详细说明：<input  name="detailed"  class="layui-input" autocomplete="off" style="width: 300px; display: inline-block;"/></td>
+            </tr>
+        </table>
+        <input type="submit" value="保存" class="layui-btn"/>
+    </form>
+</div>
+<script th:src="@{/js/jquery.dcjqaccordion.2.7.js}" class="include"></script>
+<script th:src="@{/js/jquery.nicescroll.js}"></script>
+<script th:src="@{/js/jquery.sparkline.js}"></script>
+<script th:src="@{/js/common-scripts.js}"></script>
+<script th:src="@{/js/sparkline-chart.js}"></script>
+<!-- 隐藏代码盒子 S -->
+<div id="displayBox">
+    <div class="hd"><a onclick="closethis()">×</a><h3></h3><</div>
+    <div class="bd">
+        <iframe scrolling="yse" src="" frameborder="0"></iframe>
+    </div>
+</div>
+<script >
+    function modify(num){
+        $("#displayBox h3").text("修改小区页面");
+        $("#displayBox").css("height","100px");
+        $("#displayBox iframe").css("height","80x");
+        $("#displayBox iframe").attr("src","village");
+        $("#displayBox").show();
+    }
+    function modify1(num){
+        $("#displayBox h3").text("修改地区页面");
+        $("#displayBox").css("height","100px");
+        $("#displayBox iframe").css("height","80x");
+        $("#displayBox iframe").attr("src","regions");
+        $("#displayBox").show();
+    }
+    //当前效果代码
+    $("#displayBox .hd a").click(function(){ $("#displayBox").hide(); });
+    //关闭隐藏盒子
+    $("#displayBox").blur( function(){
+        $(this).hide;
+    });
+    function closethis() {
+        $("#displayBox").hide();
+        $.ajax({
+            url:"update1.do",
+            type:"post",
+            data:{
+                num:$("#hbId").val()
+            },
+            success:function (data) {
+                $("#div1").html(data);
+            }
+        });
+    }
+</script>
+</body>
+</html>
+
+

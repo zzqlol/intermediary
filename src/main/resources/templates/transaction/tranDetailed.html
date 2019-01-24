@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="zh-CN">
+    <link th:href="@{/layui/css/layui.css}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" th:src="@{/js/laydate/laydate.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-1.8.3.min.js}" ></script>
+    <script th:inline="javascript">
+        $(function () {
+            if([[${success}]]=="success"){
+                alert("成功保存");
+                parent.closethis();
+            }
+        })
+    </script>
+</head>
+
+<body>
+<form action="updateforHistory.do">
+<fieldset>
+    <legend>房源信息</legend>
+<table>
+    <tr>
+        <td>
+           出租或出售：<input type="text" th:value="${list.get(0).state}" readonly class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>
+            <input type="text" th:value="${list.get(0).hisId}" name="hisId" style="display: none" />
+            <input type="text" th:value="${list.get(0).hdId}" name="hbId" style="display: none"/>
+            <input type="text" th:value="${list.get(0).uid}" name="uid" style="display: none"/>
+        </td>
+        <td>
+            业主姓名：<input type="text"  th:value="${list.get(0).owner}"readonly class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>
+        </td>
+        <td>
+            所处小区:<input type="text" th:value="${list.get(0).vname}" readonly class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>
+        </td>
+    </tr>
+</table>
+</fieldset>
+<fieldset>
+    <legend>客户信息</legend>
+    <table>
+        <tr>
+            <td>
+                客户姓名：<input type="text" name="customerName" th:value="${list.get(0).customerName}" class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>
+                联系手机：<input type="text" name="customerPhone" th:value="${list.get(0).customerPhone}" class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>
+            </td>
+        </tr>
+    </table>
+</fieldset>
+<fieldset>
+    <legend>合同信息</legend>
+    <table>
+        <tr>
+            <td>
+                交易价格：<input type="text" th:value="${list.get(0).price}" name="price" class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/><span id="money" th:text="${money}"></span>
+                佣金总额：<input type="text" th:value="${royalty}" readonly class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>元
+            </td>
+        </tr>
+        <tr>
+            <td>
+                提成比例：<input type="text" value="10" readonly class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>%
+                提成总额：<input type="text" th:value="${royaltys}" readonly class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>元
+            </td>
+        </tr>
+        <tr>
+            <td>
+                交易完成人：<input type="text" th:value="${list.get(0).uname}" readonly class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>
+                签订日期：<input type="text" th:value="${list.get(0).nowDate}" id="date" name="nowDate" class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>
+                <script>
+                    laydate.render({
+                        elem:"#date",
+                        type:'date'
+                    })
+                </script>
+                租期：<input type="text" th:value="${list.get(0).leaseDate}" name="leaseDate" class="layui-input" autocomplete="false" style="width: 200px; display: inline-block;"/>
+            </td>
+        </tr>
+    </table>
+</fieldset>
+    <input type="submit" name="确定修改" class="layui-btn"/>
+</form>
+</body>
+</html>
+
+
