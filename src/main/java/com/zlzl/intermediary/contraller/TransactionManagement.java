@@ -130,6 +130,7 @@ public class TransactionManagement {
     public String updatetransaction(Model model,String num){
         int hdid=Integer.parseInt(num);
         List<Map<String,Object>> list=historyRepository.updatehouse(hdid);
+        System.out.println(list);
         String lease_date=(String)list.get(0).get("leaseDate");
         String date=(String)list.get(0).get("nowDate");
         date=date.substring(0,4)+"-"+date.substring(4,6)+"-"+date.substring(6);

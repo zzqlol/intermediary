@@ -26,7 +26,6 @@ public class Staff {
                 ", did=" + did +
                 '}';
     }
-    private int did;
 
     @Id
     @Column(name = "uid")

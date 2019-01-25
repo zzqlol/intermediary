@@ -244,7 +244,7 @@ public class CustomerManagement {
        customer.setCusState(state);
        customer.setPurpose(purpose);
        customer.setDecoration(decoration);
-       int rid = regionRepository.findByRname(rname);
+       int rid = regionRepository.findByRnamejie(rname);
        customer.setRid(rid);
        customer.setStructure(structure);
        customer.setInfrastructure(infrastructure);
@@ -308,7 +308,7 @@ public class CustomerManagement {
     @RequestMapping("updatetoCust.do")
     public String updatetoCust(String cname,String seekPrice,String buyPrice,String buyExplain,String seekExplain,String state,String uname,String purpose,String decoration,String rname,String structure,String area,String infrastructure,String facilities,String telephone,int cid){
        int uid = staffRepository.findAllByUname(uname);
-       int rid = regionRepository.findByRname(rname);
+       int rid = regionRepository.findByRnamejie(rname);
        int num = customerRepository.updateByCid(cname,seekPrice,buyPrice,seekExplain,buyExplain,state,uid,purpose,decoration,rid,structure,area,infrastructure,facilities,telephone,cid);
        return "custimer/test";
     }

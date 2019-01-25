@@ -40,7 +40,7 @@ public interface HouseBasicsRepository extends JpaRepository<HouseBasics,Integer
     //查询rental所有
     @Query("select new map(h.hbId as hdId,h.registerDate as registerDate,h.state as state,h.structure as structure,h.area as area,h.floor as floor,h.floorHeight as floorHeight,r.rname as rname,v.vname as vname," +
             "h.decoration as decoration,h.purpose as purpose,s.uname as uname,h.detailedAdd as detailedAdd,h.rentalPrice as rentalPrice,h.rentalExplain as rentalExplain,h.sellPrice as sellPrice,h.sellExplain as sellExplain," +
-            "h.infrastructure as infrastructure,h.detailed as detailed,h.owner as owner,h.telephone as telephone,h.mobilePhone as mobilePhone,h.specificAddress as specificAddress,h.facilities as facilities) " +
+            "h.infrastructure as infrastructure,h.detailed as detailed,h.owner as owner,h.telephone as telephone,h.mobilePhone as mobilePhone,h.specificAddress as specificAddress,h.facilities as facilities ) " +
             "from HouseBasics h inner join Staff s on h.uid=s.uid inner join Region r on h.rid=r.rid inner join Village v on v.vid=h.vid where   h.rentalPrice is not null and h.state like :state and h.registerDate >:time and (r.rname like :name or v.vname like :name)")
     Page<Map<String,Object>> selectAllhouseByrental(String name,String state,String time,Pageable pageable);
 
@@ -76,8 +76,6 @@ public interface HouseBasicsRepository extends JpaRepository<HouseBasics,Integer
             "from HouseBasics h inner join Staff s on h.uid=s.uid inner join Region r on h.rid=r.rid inner join Village v on v.vid=h.vid where   h.rentalPrice is not null and h.state like :state and h.registerDate >:time and (r.rname like :name or v.vname like :name)")
     int selectAllhouseByrental(String name,String state,String time);
 
-
-public interface HouseBasicsRepository extends JpaRepository<HouseBasics,Integer> {
     @Query("select new map(r.rname as rname,v.vname as vname,s.uname as uname,h.hbId as hbId,h.registerDate as registerDate,h.state as state,h.structure as structure,h.area as area,h.decoration as decoration,h.infrastructure as infrastructure,h.detailedAdd as detailedAdd,h.facilities as facilities,h.owner as owner,h.telephone as telephone,h.specificAddress as specificAddress) " +
         "from HouseBasics h inner join Region r on h.rid=r.rid inner join Village  v on h.vid=v.vid inner join Staff s on h.uid=s.uid where  r.rname like CONCAT(:rname,'%') or h.rentalPrice <=:rentalPrice or h.sellPrice <=:sellPrice or h.decoration =:decoration")
     List<Map<String,Object>>selectAllByMOre(@Param("rname") String rname, int rentalPrice, double sellPrice, String decoration);
