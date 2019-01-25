@@ -1,0 +1,126 @@
+
+/* 隐藏代码盒子 */
+#displayBox{ z-index:10; display:none; position:fixed; _position:absolute;   width:720px; height:510px;   left:380px; top:150px; margin-left:0px; background:#fff;
+	border:5px solid #eee;
+	-webkit-box-shadow: #333 0 0 8px;
+	-moz-box-shadow: #333 0 0 8px;
+	box-shadow: #333 0 0 8px; }
+#displayBox1{ z-index:10; display:none; position:fixed; _position:absolute;   width:900px; height:350px;   left:380px; top:150px; margin-left:0px; background:#fff;
+	border:5px solid #eee;
+	-webkit-box-shadow: #333 0 0 8px;
+	-moz-box-shadow: #333 0 0 8px;
+	box-shadow: #333 0 0 8px; }
+#displayBox2{ z-index:10; display:none; position:fixed; _position:absolute;   width:720px; height:510px;   left:380px; top:150px; margin-left:0px; background:#fff;
+	border:5px solid #eee;
+	-webkit-box-shadow: #333 0 0 8px;
+	-moz-box-shadow: #333 0 0 8px;
+	box-shadow: #333 0 0 8px; }
+#displayBox3{ z-index:10; display:none; position:fixed; _position:absolute;   width:720px; height:510px;   left:380px; top:150px; margin-left:0px; background:#fff;
+	border:5px solid #eee;
+	-webkit-box-shadow: #333 0 0 8px;
+	-moz-box-shadow: #333 0 0 8px;
+	box-shadow: #333 0 0 8px; }
+#displayBox .hd{ height:30px; line-height:30px; background:#eee; padding:0 10px; position:relative;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#F7F7F7), to(#eee));
+	background: -webkit-linear-gradient(#F7F7F7, #eee);
+	background: -moz-linear-gradient(#F7F7F7, #eee);
+	background: -ms-linear-gradient(#F7F7F7, #eee);
+	background: -o-linear-gradient(#F7F7F7, #eee);
+	background: linear-gradient(#F7F7F7, #eee);
+}
+#displayBox1 .hd{ height:30px; line-height:30px; background:#eee; padding:0 10px; position:relative;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#F7F7F7), to(#eee));
+	background: -webkit-linear-gradient(#F7F7F7, #eee);
+	background: -moz-linear-gradient(#F7F7F7, #eee);
+	background: -ms-linear-gradient(#F7F7F7, #eee);
+	background: -o-linear-gradient(#F7F7F7, #eee);
+	background: linear-gradient(#F7F7F7, #eee);
+}
+#displayBox2 .hd{ height:30px; line-height:30px; background:#eee; padding:0 10px; position:relative;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#F7F7F7), to(#eee));
+	background: -webkit-linear-gradient(#F7F7F7, #eee);
+	background: -moz-linear-gradient(#F7F7F7, #eee);
+	background: -ms-linear-gradient(#F7F7F7, #eee);
+	background: -o-linear-gradient(#F7F7F7, #eee);
+	background: linear-gradient(#F7F7F7, #eee);
+}
+#displayBox3 .hd{ height:30px; line-height:30px; background:#eee; padding:0 10px; position:relative;
+	background: -webkit-gradient(linear, 0 0, 0 bottom, from(#F7F7F7), to(#eee));
+	background: -webkit-linear-gradient(#F7F7F7, #eee);
+	background: -moz-linear-gradient(#F7F7F7, #eee);
+	background: -ms-linear-gradient(#F7F7F7, #eee);
+	background: -o-linear-gradient(#F7F7F7, #eee);
+	background: linear-gradient(#F7F7F7, #eee);
+}
+#displayBox .hd h3{ font-weight:bold; color:black; text-align: center;  }
+#displayBox .hd a{ display:block; position:absolute; right:10px; top:7px; width:30px; height:20px; line-height:16px; text-align:center;  background:#333333; color:#fff; cursor:pointer; }
+#displayBox .hd a:hover{ text-decoration:none; }
+#displayBox .bd{ padding:0px 0;  background:#fff;  }
+#displayBox textarea{ width:458px; height:230px; padding:10px;  border:1px solid #ccc; display:block; }
+#displayBox .bd p{ padding-top:10px;  }
+#displayBox iframe{ width:700px; height:440px; margin:0 auto;  }
+#displayBox .dd{
+	position:absolute; left:289px; top:432px;text-align:center;
+}
+#displayBox1 .hd h3{ font-weight:bold; color:black; text-align: center;  }
+#displayBox1 .hd a{ display:block; position:absolute; right:10px; top:7px; width:30px; height:20px; line-height:16px; text-align:center;  background:#333333; color:#fff; cursor:pointer; }
+#displayBox1 .hd a:hover{ text-decoration:none; }
+#displayBox1 .bd{ padding:0px 0;  background:#fff;  }
+#displayBox1 textarea{ width:458px; height:230px; padding:10px;  border:1px solid #ccc; display:block; }
+#displayBox1 .bd p{ padding-top:10px;  }
+#displayBox1 iframe{ width:880px; height:270px; margin:0 auto;  }
+#displayBox1 .dd{
+	position:absolute; left:459px; top:254px;text-align:center;
+}
+#displayBox2 .hd h3{ font-weight:bold; color:black; text-align: center;  }
+#displayBox2 .hd a{ display:block; position:absolute; right:10px; top:7px; width:30px; height:20px; line-height:16px; text-align:center;  background:#333333; color:#fff; cursor:pointer; }
+#displayBox2 .hd a:hover{ text-decoration:none; }
+#displayBox2 .bd{ padding:0px 0;  background:#fff; text-align: left; }
+#displayBox2 textarea{ width:458px; height:230px; padding:10px;  border:1px solid #ccc; display:block; }
+#displayBox2 .bd p{ padding-top:10px;  }
+#displayBox2 iframe{ width:700px; height:450px;  display: inline; margin-top: 83px;}
+#displayBox2 .dd{
+	position:absolute; left:360px; top:505px;text-align:center;margin-top: -50px;
+}
+#displayBox3 .hd h3{ font-weight:bold; color:black; text-align: center;  }
+#displayBox3.hd a{ display:block; position:absolute; right:10px; top:7px; width:30px; height:20px; line-height:16px; text-align:center;  background:#333333; color:#fff; cursor:pointer; }
+#displayBox3 .hd a:hover{ text-decoration:none; }
+#displayBox3 .bd{ padding:0px 0;  background:#fff; text-align: left; }
+#displayBox3 textarea{ width:458px; height:230px; padding:10px;  border:1px solid #ccc; display:block; }
+#displayBox3 .bd p{ padding-top:10px;  }
+#displayBox3 iframe{ width:700px; height:350px;  display: inline; margin-top: 83px;}
+#displayBox3 .dd{
+	position:absolute; left:360px; top:505px;text-align:center;margin-top: -50px;
+}
+
+/* 扩展效果 ---------------------------------------------- */
+.authorWord{ margin-bottom:25px;   text-align:left; background:#fff; }
+.authorWord h3{ padding:0 20px;  height:30px;  font:normal 14px/30px "Microsoft YaHei"; overflow:hidden; cursor:pointer; border-bottom:1px dotted #ccc; }
+.authorWord h3 .arrow{ float:right; border-top-color:#fff; margin-top:11px;  }
+.authorWord .con{ padding:10px 20px; line-height:22px;  }
+.authorWord .con p{ margin-bottom:5px }
+.authorWord a{ color:#f60; text-decoration:underline;   }
+
+.demoList{ overflow:hidden; padding-top:15px;    }
+.demoList li{
+	position:relative;  cursor:pointer; float:left; width:160px;  text-align:center; margin:0 30px 30px 0;
+	padding:4px 4px 0 4px; background:#e3e3e3; color:#000;
+}
+.demoList li img{ display:block; width:160px; height:120px; background:url(images/loading.gif) center center no-repeat;  }
+.demoList li h3{ height:28px; line-height:28px;  }
+.demoList li.new i{ display:block; position:absolute; top:4px; right:4px; z-index:1; width:31px; height:31px;  background:url(images/new.png) 0 0 no-repeat;  }
+
+.demoList li.on{
+	background:#666; color:#fff;
+	-webkit-transform: translateY(-10px);
+	-moz-transform: translateY(-10px);
+	-o-transform: translateY(-10px);
+	-webkit-transition-duration:0.3s;
+	-o-transition-duration:0.3s;
+	-moz-transition-duration:0.3s;
+}
+
+
+.demoBoxEven{ background:#fff;  }
+.demoBoxEven .demoList li{	 }
+.demoBoxEven .demoList li.on{  background:#666; color:#fff;  }

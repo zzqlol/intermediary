@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+    <link th:src="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />-->
+    <script>
+        function change() {
+            var region=$('#test option:selected').val();
+            alert(region);
+        }
+    </script>
 </head>
 <body>
-<table>
-    <tr>
-        <td>id</td>
-        <td>用户名</td>
-        <td>密码</td>
-        <td>姓名</td>
-    </tr>
-    <tr th:each="adm:${list}">
-        <td th:text="${adm.admId}"></td>
-        <td th:text="${adm.dmUsername}"></td>
-        <td th:text="${adm.admPassword}"></td>
-        <td th:text="${adm.admName}"></td>
-    </tr>
-</table>
+<select  class="form-control" id="test" onchange="change()">
+    <ul th:each="region:${list}">
+    <option th:attr="value=${region.rid}"><li th:text="${region.rname}"></option>
+    </ul>
+</select>
 </body>
 </html>

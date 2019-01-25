@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="zh-CN">
+<title>租房成交</title>
+<script type="text/javascript" th:src="@{/js/jquery-1.8.3.min.js}" ></script>
+<script type="text/javascript" th:src="@{/js/laydate/laydate.js}" ></script>
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css"/>
+
+<style type="text/css">
+	/* css 重置 */
+	*{margin:0; padding:0; list-style:none; }
+	body{ background:#fff; font:normal 14px/22px 微软雅黑;  }
+	#container1{
+		display: none;
+	}
+	</style>
+	<script>
+		$(function(){
+        	for(var i=0;i<=11;i++){
+					var code='<option value="'+i+'">'+i+'</option>';
+					$("#month").append(code);
+				}
+        });
+	</script>
+	<style type="text/css">
+		#container td,#container1 td{
+			text-align:justify;
+			vertical-align: middle;
+		}
+		#container tr,#container1 tr{
+			line-height: 40px;
+		}
+		table{
+			margin: 0px auto;
+		}
+	</style>
+	<script type="text/javascript">
+		$(function () {
+            $("#rental").bind("click",function () {
+                $("#container").show();
+                $("#container1").hide("normal");
+            })
+            $("#sell").bind("click",function () {
+                $("#container1").show();
+                $("#container").hide("normal");
+            })
+        })
+		function cancel(){
+		    parent.cancel2();
+		}
+        function checkPhone(){
+            var phone = $("#customerPhone").val();
+            if(!(/^1[34578]\d{9}$/.test(phone))){
+                $("#msg").text("号码错误");
+                return false;
+            }
+            var phone1 = $("#customerPhone1").val();
+            if(!(/^1[34578]\d{9}$/.test(phone1))){
+                $("#msg1").text("号码错误");
+                return false;
+            }
+        }
+        function clear3() {
+            $("#msg").text("");
+        }
+        function clear4() {
+            $("#msg1").text("");
+        }
+        function isnull() {
+			if(
+				($("#rental_date").val()!=null)&&($("#rental_date").val()!="")&&
+				($("#customerName").val()!=null)&&($("#customerName").val()!="")&&
+				($("#customerPhone").val()!=null)&&($("#customerPhone").val()!="")&&
+				(($("#year").val()+$("#month").val())!=0)
+		){
+			    parent.cancel2();
+                parent.show_info();
+                setTimeout(function () {
+                    parent.refresh();
+                },1000)
+			    return true;
+			}
+			alert("请填写完整")
+			return false;
+        }
+        function isnull1() {
+            if(
+                ($("#rental_date1").val()!=null)&&($("#rental_date1").val()!="")&&
+                ($("#customerName1").val()!=null)&&($("#customerName1").val()!="")&&
+                ($("#customerPhone1").val()!=null)&&($("#customerPhone1").val()!="")
+            ){
+                parent.cancel2();
+                parent.show_info();
+                setTimeout(function () {
+                    parent.refresh();
+                },1000)
+                return true;
+            }
+            alert("请填写完整")
+            return false;
+        }
+	</script>
+</head>
+<body>
+	<div style="margin-left: 284px">
+	出租：<input type="radio" name="出租" id="rental"  checked>
+	出售：<input type="radio" name="出租" id="sell" >
+	</div>
+	<div id="container">
+	<form class="form-inline" action="dailyinserthistory" onsubmit=" return isnull()">
+		<input type="text" th:value="${house.hbId}" name="hbId" style="display: none"/>
+		<table  class="table table-bordered" style="border:1px solid #000000;text-align: center;width: 500px;" cellpadding="0"cellspacing="1">
+			<tr><th colspan="2" style="text-align: center;">(出租)客户信息登记</th></tr>
+			<tr>
+				<td>
+				出租价格: <input type="text" class="form-control" id="rental_price" name="price" style="width: 120px;" th:value="${house.rentalPrice}"/>元
+				</td>
+				<td>
+				出租时间: <input type="text" class="form-control" id="rental_date" name="nowDate" placeholder="请选择日期"  style="width: 120px;"/>
+				<script>
+				laydate.render({
+					elem:"#rental_date",
+					type:'date'
+				})
+				</script>
+				</td>
+			</tr><tr>
+				<td>
+				客户姓名: <input type="text" class="form-control"id="customerName" name="customerName" style="width: 120px;" />
+				</td>
+				<td>
+				客户电话: <input type="text" class="form-control"id="customerPhone"name="customerPhone" style="width: 120px;" onblur="checkPhone()"onfocus="clear3()"/><span id="msg" style="color: red;font-size: 12px"></span>
+				</td>
+			</tr>
+			<tr><td>
+				处理员工: <select id="uid" name="uid" class="form-control" onchange="change()"style="width: 120px;">
+    						<option th:each="staff:${list}" th:attr="value=${staff.uid}" th:text="${staff.uname}"></option>
+					</select>
+			</td>
+			<td>
+				租期:<select name="year" class="form-control"id="year" style="width: 60px;">
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select> 年
+				<select class="form-control" id="month" name="month" style="width: 60px;">
+					
+				</select> 月
+			</td>
+			</tr>
+			<tr><td colspan="2" style="text-align: center;">
+				<input type="submit" value="确定" class="btn btn-primary" onclick="confirm_info()"/>&emsp;&emsp;&emsp;
+				<input type="button" value="取消" onclick="cancel()" class="btn btn-label-right"/>
+			</td></tr>
+		</table>
+	</form>
+	</div>
+
+	<div id="container1" >
+		<form class="form-inline" action="dailyinserthistory" onsubmit=" return snull1()">
+			<input type="text" th:value="${house.hbId}" name="hbId" style="display: none"/>
+			<table  class="table table-bordered" style="border:1px solid #000000;text-align: center;width: 500px;" cellpadding="0"cellspacing="1">
+				<tr><th colspan="2" style="text-align: center;">(出售)客户信息登记</th></tr>
+				<tr>
+					<td>
+						出售价格: <input type="text" id="sellprice" class="form-control" name="price" style="width: 120px;" th:value="${house.sellPrice}"/>万元
+					</td>
+					<td>
+						出售时间: <input type="text" class="form-control" placeholder="请选择日期" id="rental_date1" name="nowDate" style="width: 120px;"/>
+						<script>
+                            laydate.render({
+                                elem:"#rental_date1",
+                                type:'date'
+                            })
+						</script>
+					</td>
+				</tr><tr>
+				<td>
+					客户姓名: <input type="text"id="customerName1" class="form-control"name="customerName" style="width: 120px;" />
+				</td>
+				<td>
+					客户电话: <input type="text" id="customerPhone1" class="form-control"name="customerPhone" style="width: 120px;"onblur="checkPhone()" onfocus="clear4()"/><span id="msg1" style="color: red;font-size: 12px"></span>
+				</td>
+			</tr>
+				<tr><td colspan="2">
+					处理员工: <select name="uid"class="form-control" onchange="change()"style="width: 120px;">
+					<option th:each="staff:${list}" th:attr="value=${staff.uid}" th:text="${staff.uname}"></option>
+				</select>
+				</td>
+				</tr>
+				<tr><td colspan="2" style="text-align: center;">
+					<input type="submit" value="确定" class="btn btn-primary" onclick="confirm_info()"/>&emsp;&emsp;&emsp;
+					<input type="button" value="取消" onclick="cancel()" class="btn btn-label-right"/>
+				</td></tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
+
+

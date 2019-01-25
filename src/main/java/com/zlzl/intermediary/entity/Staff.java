@@ -9,8 +9,8 @@ import java.util.Objects;
 @Entity
 public class Staff {
     private int uid;
-    private Integer uname;
-    private Integer sex;
+    private String uname;
+    private String sex;
     private String telephone;
     private String staffDate;
     private String did;
@@ -27,21 +27,21 @@ public class Staff {
 
     @Basic
     @Column(name = "uname")
-    public Integer getUname() {
+    public String getUname() {
         return uname;
     }
 
-    public void setUname(Integer uname) {
+    public void setUname(String uname) {
         this.uname = uname;
     }
 
     @Basic
     @Column(name = "sex")
-    public Integer getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Integer sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 

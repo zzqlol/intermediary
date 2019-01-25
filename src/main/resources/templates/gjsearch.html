@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Language" content="zh-CN">
+<title>高级搜索</title>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js" ></script>
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<style type="text/css">
+	/* css 重置 */
+	*{margin:0; padding:0; list-style:none; }
+	body{ background:#fff; font:normal 14px/22px 微软雅黑;  }
+	img{ border:0;  }
+	a{ text-decoration:none; color:#333;  }
+	a:hover{ color:#1974A1;  }
+	.js{width:80%; margin:10px auto 0 auto; }
+	.js p{ padding:5px 0; font-weight:bold; overflow:hidden;  }
+	.js p span{ float:right; }
+	.js p span a{ color:#f00; text-decoration:underline;   }
+	.js textarea{ height:100px;  width:98%; padding:5px; border:1px solid #ccc; border-top:2px solid #aaa;  border-left:2px solid #aaa;  }
+	</style>
+	<script>
+		function change() {
+        var select_state=$('#select_state option:selected').val();
+        var select_region=$('#select_region option:selected').val();
+        var select_structure=$('#select_structure option:selected').val();
+        var select_rentalprice=$('#select_rentalprice option:selected').val();
+        // alert(select_state,select_region,select_structure,select_rentalprice)
+   }
+	</script>
+	<style type="text/css">
+		#container td{
+			text-align: left;
+			vertical-align: middle;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+	<form class="form-inline">
+		<table class="table" style="text-align: left; width: 880px;">
+			<tr><td>
+		交易类型 <select  id="select_isrental" class="form-control" style="width: 120px;">
+                                <option value="0">--请选择--</option>
+                                <option value="1">出租</option>
+                                <option value="2">出售</option>
+            </select></td><td>
+		区域 <select  class="form-control" id="select_region" onchange="change()"style="width: 120px;">
+									<option>不限</option>
+									<option th:each="region:${list}" th:attr="value=${region.rid}" th:text="${region.rname}"></option>			
+		</select></td><td colspan="2">
+                面积 <input type="text" id="min" class="form-control" placeholder="0" style="width: 80px;"/>-<input type="text" id="max" class="form-control" placeholder="200" style="width: 80px;"/></td>
+		</tr><tr>
+			<td colspan="2">
+		户型结构 <select  id="select_structure1" class="form-control" style="width: 80px;">
+                                <option value="0">不限</option>
+                                <option value="1">一</option>
+                                <option value="2">二</option>
+                                <option value="3">三</option>
+                                <option value="4">四</option>
+            </select> 室
+            <select  id="select_structure2" class="form-control" style="width: 80px;">
+                                <option value="0">不限</option>
+                                <option value="1">一</option>
+                                <option value="2">二</option>
+            </select> 厅
+            <select  id="select_structure3" class="form-control" style="width: 80px;">
+                                <option value="0">不限</option>
+                                <option value="1">一</option>
+                                <option value="2">二</option>
+           </select> 卫
+            <select  id="select_structure4" class="form-control" style="width: 80px;">
+                                <option value="0">不限</option>
+                                <option value="1">一</option>
+                                <option value="2">二</option>
+                                <option value="3">三</option>
+            </select> 阳</td><td colspan="2">
+                出租(出售)价格 <input type="text" id="minprice" class="form-control" placeholder="0" style="width: 80px;"/>-<input type="text" id="maxprice" class="form-control" placeholder="200" style="width: 80px;"/>
+            </td></tr><tr><td>
+		装修程度 <select  id="select_decoration" class="form-control" style="width: 120px;">
+                                <option value="0">不限</option>
+                                <option value="1">普装</option>
+                                <option value="2">毛坯</option>
+                                <option value="3">精装</option>
+             </select></td><td>
+               业务用途 <select  id="select_purpose" class="form-control" style="width: 120px;">
+                                <option value="0">不限</option>
+                                <option value="1">住宅</option>
+                                <option value="2">商业</option>
+                                <option value="3">办公</option>
+                </select></td><td>
+                所在层数 <select  id="select_floor" class="form-control" style="width: 120px;">
+                                <option value="0">不限</option>
+                                <option value="1">1-5层</option>
+                                <option value="2">6-10层</option>
+                                <option value="3">10层以上</option>
+                </select></td><td>
+                房源状态 <select  id="select_state" class="form-control" style="width: 120px;">
+                                <option value="0">不限</option>
+                                <option value="1">正常状态</option>
+                                <option value="2">已出售</option>
+                                <option value="3">已出租</option>
+                                <option value="4">已失效</option>
+                </select></td></tr>
+                <tr>
+		        <td><label for="rq">燃气 &nbsp;</label><input type="checkbox" id="rq" class="checkbox"/></td>
+		        <td><label for="kt">空调 &nbsp;</label><input type="checkbox" id="kt" class="checkbox"/></td>
+		        <td><label for="ds">电视 &nbsp;</label><input type="checkbox" id="ds" class="checkbox"/></td>
+		        <td><label for="kd">宽带 &nbsp;</label><input type="checkbox" id="kd" class="checkbox"/></td>
+                </tr>
+                <tr><td colspan="4" style="text-align: center;">
+				<input type="submit" value="确定" class="btn btn-primary" />&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+				
+				</td></tr>
+	</form>
+	</div>
+	
+		
+		
+</body>
+</html>
+
+
