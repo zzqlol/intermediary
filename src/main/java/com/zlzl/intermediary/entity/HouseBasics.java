@@ -31,35 +31,6 @@ public class HouseBasics {
     private String mobilePhone;
     private String specificAddress;
 
-    @Override
-    public String toString() {
-        return "HouseBasics{" +
-                "hbId=" + hbId +
-                ", registerDate='" + registerDate + '\'' +
-                ", state='" + state + '\'' +
-                ", structure='" + structure + '\'' +
-                ", area=" + area +
-                ", floor=" + floor +
-                ", floorHeight=" + floorHeight +
-                ", rid='" + rid + '\'' +
-                ", vid='" + vid + '\'' +
-                ", decoration='" + decoration + '\'' +
-                ", purpose='" + purpose + '\'' +
-                ", uid=" + uid +
-                ", detailedAdd='" + detailedAdd + '\'' +
-                ", rentalPrice=" + rentalPrice +
-                ", rentalExplain='" + rentalExplain + '\'' +
-                ", sellPrice=" + sellPrice +
-                ", sellExplain='" + sellExplain + '\'' +
-                ", infrastructure='" + infrastructure + '\'' +
-                ", facilities='" + facilities + '\'' +
-                ", detailed='" + detailed + '\'' +
-                ", owner='" + owner + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", mobilePhone='" + mobilePhone + '\'' +
-                ", specificAddress='" + specificAddress + '\'' +
-                '}';
-    }
 
     @Id
     @Column(name = "hb_id")
