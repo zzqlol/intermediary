@@ -57,7 +57,7 @@ public class HousingManagement {
     public String test(Model model){
         //分页数据
         int page=0;
-        int pageSize=3;
+        int pageSize=5;
         Sort sort=new Sort(Sort.Direction.DESC,"registerDate");
         Pageable pageable= PageRequest.of(page,pageSize,sort);
         //分页及查询
@@ -71,8 +71,8 @@ public class HousingManagement {
         }
         model.addAttribute("list",list);
         model.addAttribute("pagesize",pagesize);
-        Long pagelength=pagesize/3;
-        if(pagesize%3!=0){
+        Long pagelength=pagesize/5;
+        if(pagesize%5!=0){
             pagelength+=1;
         }
         model.addAttribute("pagelength",pagelength);
@@ -113,7 +113,7 @@ public class HousingManagement {
         int pagesize =0;
         //分页
         int page1 = Integer.parseInt(page)-1;
-        int pageSize = 3;
+        int pageSize = 5;
         Sort sort = new Sort(Sort.Direction.DESC, "registerDate");
         Pageable pageable = PageRequest.of(page1, pageSize, sort);
         if (like != "" && like != null) {
@@ -165,8 +165,8 @@ public class HousingManagement {
         }
         model.addAttribute("list", list);
         model.addAttribute("pagesize", pagesize);
-        int pagelength = pagesize / 3;
-        if (pagesize % 3 != 0) {
+        int pagelength = pagesize / 5;
+        if (pagesize % 5 != 0) {
             pagelength += 1;
         }
         model.addAttribute("pagelength", pagelength);

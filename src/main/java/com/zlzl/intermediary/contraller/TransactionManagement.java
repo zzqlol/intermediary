@@ -103,6 +103,7 @@ public class TransactionManagement {
                 put("sellPrice","空"); put("telephone","空"); put("rentalExplain","空"); put("structure","空");
                 put("vname","空"); put("mobilePhone","空"); put("detailed","空");put("infrastructure","空");put("state","空");
                 put("floor","空");put("facilities","空");put("decoration","空");put("floorHeight","空");put("registerDate","空");
+                put("nowDate","空");
             }};
             list.add(map);
         }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:font-size="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -171,7 +171,7 @@
             position: absolute;
             margin-left: 1185px;
             margin-top: 48px;
-            width: 380px;
+            width: 430px;
             height: 260px;
             color: black;
             font-size: 12px;
@@ -181,7 +181,7 @@
             position: absolute;
             margin-left: 1185px;
             margin-top: 345px;
-            width: 380px;
+            width: 430px;
             height: 270px;
             color: black;
             font-size: 12px;
@@ -280,56 +280,57 @@
     <div id="table_info" th:fragment="table_info"th:each="a:${info}">
     <table id="tb_1" >
         <tr>
-            <td colspan="2"><span style="font-size: 12px;" >详细地址：</span><input type="text" class="form-control input1" th:value="${a.detailedAdd}" readonly="readonly"/></td>
+            <td colspan="2">详细地址：<input type="text" class="form-control input1" th:value="${a.detailedAdd}" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
         <tr>
-            <td><span style="font-size: 12px;">状态：</span><input type="text" class="form-control input2"  th:value="${a.state}" readonly="readonly"/></td>
-            <td><span style="font-size: 12px;">登记时间：</span><input type="text" class="form-control input2"  th:value="${a.registerDate}" readonly="readonly"/></td>
+            <td>状态：<input type="text" class="form-control input2"  th:value="${a.state}" readonly="readonly" style="display:inline-block;"/></td>
+            <td>登记时间：<input type="text" class="form-control input2"  th:value="${a.registerDate}" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
         <tr>
-            <td><span style="font-size: 12px;">房屋结构：</span><input type="text" class="form-control input2"  th:value="${a.structure}" readonly="readonly"/></td>
-            <td><span style="font-size: 12px;">面积：</span><input type="text" class="form-control input2"  th:value="${a.area}" readonly="readonly"/></td>
+            <td>房屋结构：<input type="text" class="form-control input2"  th:value="${a.structure}" readonly="readonly" style="display:inline-block;"/></td>
+            <td>面积：<input type="text" class="form-control input2"  th:value="${a.area}" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
         <tr>
-            <td><span style="font-size: 12px;">层高/楼高：</span><input type="text" class="form-control input3"  th:value="|${a.floorHeight}/${a.floor}" readonly="readonly"/></td>
-            <td><span style="font-size: 12px;">装修程度：</span><input type="text" class="form-control input2"  th:value="${a.decoration}" readonly="readonly"/></td>
+            <td>层高/楼高：<input type="text" class="form-control input3"  th:value="|${a.floorHeight}/${a.floor}" readonly="readonly" style="display:inline-block;"/></td>
+            <td>装修程度:<input type="text" class="form-control input2"  th:value="${a.decoration}" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
         <tr>
-            <td><span style="font-size: 12px;">用途：</span><input type="text" class="form-control input2"  th:value="${a.purpose}" readonly="readonly"/></td><td>
-            <span style="font-size: 12px;">（出租/出售）说明：</span><input type="text" class="form-control input2"  th:value="${a.rentalExplain}" readonly="readonly"/></td>
+            <td><span style="font-size: 12px;">用途：</span><input type="text" class="form-control input2"  th:value="${a.purpose}" readonly="readonly" style="display:inline-block;"/></td><td>
+            <span style="font-size: 12px;">（出租/出售）说明：</span><input type="text" class="form-control input2"  th:value="${a.rentalExplain}" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
         <tr>
-            <td><span style="font-size: 12px;">基础设施：</span><input type="text" class="form-control input2"  th:value="${a.infrastructure}" readonly="readonly"/></td>
-            <td><span style="font-size: 12px;">配套设施：</span><input type="text" class="form-control input2"  th:value="${a.facilities}" readonly="readonly"/></td>
+            <td><span style="font-size: 12px;">基础设施：</span><input type="text" class="form-control input2"  th:value="${a.infrastructure}" readonly="readonly" style="display:inline-block;"/></td>
+            <td><span style="font-size: 12px;">配套设施：</span><input type="text" class="form-control input2"  th:value="${a.facilities}" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
         <tr>
-            <td colspan="2"><span style="font-size: 12px;">（出租/出售）价格：</span><input type="text" class="form-control input2" style="color:#fa5741 ;" th:value="${a.rentalPrice}" readonly="readonly"/></td>
+            <td colspan="2"><span style="font-size: 12px;">（出租/出售）价格：</span><input type="text" class="form-control input2" style="color:#fa5741 ; display:inline-block;" th:value="${a.rentalPrice}" readonly="readonly" /></td>
         </tr>
     </table>
     <br />
 
     <table id="tb_2">
         <tr>
-            <td colspan="2"><span style="font-size: 12px;">业主姓名：</span><input type="text" class="form-control input1" th:value="${a.owner}"value="曾自强" readonly="readonly"/></td>
+            <td colspan="2"><span style="font-size: 12px;">业主姓名：</span><input type="text" class="form-control input1" th:value="${a.owner}"value="曾自强" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
         <tr>
-            <td colspan="2"><span style="font-size: 12px;">电话：</span><input type="text" class="form-control input1" th:value="${a.telephone}"value="4823432" readonly="readonly"/></td>
+            <td colspan="2"><span style="font-size: 12px;">电话：</span><input type="text" class="form-control input1" th:value="${a.telephone}"value="4823432" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
         <tr>
-            <td colspan="2"><span style="font-size: 12px;">手机：</span><input type="text" class="form-control input1" th:value="${a.mobilePhone}"value="15674653453" readonly="readonly"/></td>
+            <td colspan="2"><span style="font-size: 12px;">手机：</span><input type="text" class="form-control input1" th:value="${a.mobilePhone}"value="15674653453" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
         <tr>
-            <td colspan="2"><span style="font-size: 12px;">地址：</span><input type="text" class="form-control input1" th:value="${a.specificAddress}"value="金星路和谐花园137号" readonly="readonly"/></td>
+            <td colspan="2"><span style="font-size: 12px;">地址：</span><input type="text" class="form-control input1" th:value="${a.specificAddress}"value="金星路和谐花园137号" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
         <tr>
-            <td colspan="2"><span style="font-size: 12px;">详细说明：</span><textarea class="form-control" th:text="${a.sellExplain}"readonly="readonly">不能太吵，不能扰民</textarea></td>
+            <td colspan="2"><span style="font-size: 12px;">详细说明：</span><textarea class="form-control" th:text="${a.sellExplain}"readonly="readonly" >不能太吵，不能扰民</textarea></td>
         </tr>
         <tr>
-            <td colspan="2"><span style="font-size: 12px;">置业顾问：</span><input type="text" class="form-control input1" th:value="${a.uname}"value="郑康旺" readonly="readonly"/></td>
+            <td colspan="2"><span style="font-size: 12px;">置业顾问：</span><input type="text" class="form-control input1" th:value="${a.uname}"value="郑康旺" readonly="readonly" style="display:inline-block;"/></td>
         </tr>
     </table>
     </div>
-    <div class="ui_content"th:fragment="ui_content" id="ui_content">
+    <div th:fragment="ui_content" id="ui_content">
+    <div class="ui_content">
         <div class="domelist" >
             <ul class="row-1" >
                 <!--第一个主体内容-->
@@ -361,12 +362,13 @@
             页
         </div>
         <div class="pagination">
-            <li th:onclick="'previous('+${pageindex}+')'" ><a href="#">&laquo;</a></li>
+            <li th:onclick="'previous('+${pageindex}+')'" ><span >&laquo;</span></li>
                 <li th:each="pagenum1:${#numbers.sequence(1,pagesum)}" >
-                    <a href="#"name="pageid" th:text="${pagenum1}" th:onclick="'turnto('+${pagenum1}+')'" ></a>
+                    <span name="pageid" th:text="${pagenum1}" th:onclick="'turnto('+${pagenum1}+')'" ></span>
                 </li>
-            <li th:onclick="'next('+${pageindex}+','+${pagesum}+')'" ><a href="#">&raquo;</a></li>
+            <li th:onclick="'next('+${pageindex}+','+${pagesum}+')'" ><span >&raquo;</span></li>
         </div>
+    </div>
     </div>
     </div>
 

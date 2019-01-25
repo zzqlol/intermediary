@@ -17,6 +17,7 @@
     <link th:href="@{/css/style.css}"rel="stylesheet" type="text/css">
 </head>
 
+
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
     <div id ="header" style="padding-left:30px;height:75px;width:auto;background-color:#2f4050">
         <p style="padding-top:15px;font-size:25px;color:white;font-family:'黑体'">房产中介管理系统</p>
@@ -38,7 +39,7 @@
                     </li>
                     <li>
                     <li>
-                        <a class="J_menuItem" href="dailymanage.html"><i class="fa fa-cloud-download"></i> <span class="nav-label">日常管理</span><span class="fa arrow"></span></a>
+                        <a class="J_menuItem" href="dailytest"><i class="fa fa-cloud-download"></i> <span class="nav-label">日常管理</span><span class="fa arrow"></span></a>
                         	<!--<ul class="nav nav-second-level">
                             <li><a class="J_menuItem" href="#">########</a></li>
                             <li><a class="J_menuItem" href="#">########</a></li>
@@ -46,25 +47,30 @@
                 			</ul>-->
                     </li>
                     <li>
-                        <a class="J_menuItem" href="propertymanage.html"><i class="fa fa-calendar"></i> <span class="nav-label">房源管理</span><span class="fa arrow"></span></a>
+                        <a class="J_menuItem" href="housing/start"><i class="fa fa-calendar"></i> <span class="nav-label">房源管理</span><span class="fa arrow"></span></a>
                     
                     </li>
                     
                     <li>
-                        <a class="J_menuItem" href="clientmanage.html"><i class="fa fa-building-o"></i> <span class="nav-label">客户管理</span><span class="fa arrow"></span></a>
+                        <a class="J_menuItem" href="customer/all.do"><i class="fa fa-building-o"></i> <span class="nav-label">客户管理</span><span class="fa arrow"></span></a>
 
                     </li>
                     <li>
-                        <a class="J_menuItem" href="transactionmanage.html"><i class="fa fa-folder"></i> <span class="nav-label">成交管理</span><span class="fa arrow"></span></a>
+                        <a class="J_menuItem" href="transaction/start"><i class="fa fa-folder"></i> <span class="nav-label">成交管理</span><span class="fa arrow"></span></a>
 
                     </li>
                     <li>
-                        <a class="J_menuItem" href="statisticreport.html"><i class="fa fa-folder"></i> <span class="nav-label">统计报表</span><span class="fa arrow"></span></a>
-
+                        <a class="J_menuItem"><i class="fa fa-folder"></i> <span class="nav-label">统计报表</span><span class="fa arrow"></span></a>
+                         <ul class="nav nav-second-level">
+                            <li><a class="J_menuItem" href="statist/profitFromMonth">年成交管理</a></li>
+                            <li><a class="J_menuItem" href="statist/tradeFromMonth">年业绩管理</a></li>
+                        </ul>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="systemsetting.html"><i class="fa fa-folder"></i> <span class="nav-label">系统设置</span><span class="fa arrow"></span></a>
-
+                        <a class="J_menuItem" href="#"><i class="fa fa-folder"></i> <span class="nav-label">系统设置</span><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a class="J_menuItem" href="system/all.do">员工管理</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>

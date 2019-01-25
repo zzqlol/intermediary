@@ -31,6 +31,6 @@ public class LoginManagement {
         }
        HttpSession session=request.getSession();
         session.setAttribute("user",administrators);
-       return "test";
+       return "index";
     }
 }

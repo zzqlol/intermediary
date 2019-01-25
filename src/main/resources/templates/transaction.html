@@ -114,10 +114,10 @@
 			<tr><th colspan="2" style="text-align: center;">(出租)客户信息登记</th></tr>
 			<tr>
 				<td>
-				出租价格: <input type="text" class="form-control" id="rental_price" name="price" style="width: 120px;" th:value="${house.rentalPrice}"/>元
+				出租价格: <input type="text" class="form-control" id="rental_price" name="price" style="width: 120px;display:inline-block;" th:value="${house.rentalPrice}" />元
 				</td>
 				<td>
-				出租时间: <input type="text" class="form-control" id="rental_date" name="nowDate" placeholder="请选择日期"  style="width: 120px;"/>
+				出租时间: <input type="text" class="form-control" id="rental_date" name="nowDate" placeholder="请选择日期"  style="width: 120px;display:inline-block;"/>
 				<script>
 				laydate.render({
 					elem:"#rental_date",
@@ -127,19 +127,19 @@
 				</td>
 			</tr><tr>
 				<td>
-				客户姓名: <input type="text" class="form-control"id="customerName" name="customerName" style="width: 120px;" />
+				客户姓名: <input type="text" class="form-control"id="customerName" name="customerName" style="width: 120px;display:inline-block;" />
 				</td>
 				<td>
-				客户电话: <input type="text" class="form-control"id="customerPhone"name="customerPhone" style="width: 120px;" onblur="checkPhone()"onfocus="clear3()"/><span id="msg" style="color: red;font-size: 12px"></span>
+				客户电话: <input type="text" class="form-control"id="customerPhone"name="customerPhone" style="width: 120px;display:inline-block;" onblur="checkPhone()"onfocus="clear3()"/><span id="msg" style="color: red;font-size: 12px"></span>
 				</td>
 			</tr>
 			<tr><td>
-				处理员工: <select id="uid" name="uid" class="form-control" onchange="change()"style="width: 120px;">
+				处理员工: <select id="uid" name="uid" class="form-control" onchange="change()"style="width: 120px;display:inline-block;">
     						<option th:each="staff:${list}" th:attr="value=${staff.uid}" th:text="${staff.uname}"></option>
 					</select>
 			</td>
 			<td>
-				租期:<select name="year" class="form-control"id="year" style="width: 60px;">
+				租期:<select name="year" class="form-control"id="year" style="width: 60px; display:inline-block;">
 					<option value="0">0</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -147,7 +147,7 @@
 					<option value="4">4</option>
 					<option value="5">5</option>
 				</select> 年
-				<select class="form-control" id="month" name="month" style="width: 60px;">
+				<select class="form-control" id="month" name="month" style="width: 60px; display:inline-block;">
 					
 				</select> 月
 			</td>
@@ -167,10 +167,10 @@
 				<tr><th colspan="2" style="text-align: center;">(出售)客户信息登记</th></tr>
 				<tr>
 					<td>
-						出售价格: <input type="text" id="sellprice" class="form-control" name="price" style="width: 120px;" th:value="${house.sellPrice}"/>万元
+						出售价格: <input type="text" id="sellprice" class="form-control" name="price" style="width: 120px;display:inline-block;" th:value="${house.sellPrice}"/>万元
 					</td>
 					<td>
-						出售时间: <input type="text" class="form-control" placeholder="请选择日期" id="rental_date1" name="nowDate" style="width: 120px;"/>
+						出售时间: <input type="text" class="form-control" placeholder="请选择日期" id="rental_date1" name="nowDate" style="width: 120px;display:inline-block;"/>
 						<script>
                             laydate.render({
                                 elem:"#rental_date1",
@@ -180,14 +180,14 @@
 					</td>
 				</tr><tr>
 				<td>
-					客户姓名: <input type="text"id="customerName1" class="form-control"name="customerName" style="width: 120px;" />
+					客户姓名: <input type="text"id="customerName1" class="form-control"name="customerName" style="width: 120px;display:inline-block;" />
 				</td>
 				<td>
-					客户电话: <input type="text" id="customerPhone1" class="form-control"name="customerPhone" style="width: 120px;"onblur="checkPhone()" onfocus="clear4()"/><span id="msg1" style="color: red;font-size: 12px"></span>
+					客户电话: <input type="text" id="customerPhone1" class="form-control"name="customerPhone" style="width: 120px; display:inline-block;"onblur="checkPhone()" onfocus="clear4()"/><span id="msg1" style="color: red;font-size: 12px"></span>
 				</td>
 			</tr>
 				<tr><td colspan="2">
-					处理员工: <select name="uid"class="form-control" onchange="change()"style="width: 120px;">
+					处理员工: <select name="uid"class="form-control" onchange="change()"style="width: 120px; display:inline-block;">
 					<option th:each="staff:${list}" th:attr="value=${staff.uid}" th:text="${staff.uname}"></option>
 				</select>
 				</td>

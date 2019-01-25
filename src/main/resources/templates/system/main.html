@@ -14,7 +14,45 @@
     <link th:href="@{/css/style1.css}" rel="stylesheet" type="text/css" />
     <link th:href="@{/css/default1.css}" rel="stylesheet" type="text/css" />
     <link th:href="@{/css/layui.css}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/jquery-easyui-1.7.0/themes/default/easyui.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/jquery-easyui-1.7.0/themes/icon.css}">
+    <script type="text/javascript" th:src="@{/jquery-easyui-1.7.0/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery-easyui-1.7.0/jquery.easyui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery-easyui-1.7.0/locale/easyui-lang-zh_CN.js}"></script>
+    <script th:src="@{/js/jquery/3.3.1/jquery.min.js}"></script>
     <script>
+        function openxiugaiDialog(){
+            $("#dlg2").dialog('open').dialog('setTitle','修改密码');
+        }
+        function xiugaimima() {
+            $("#xiugai").form("submit", {
+                success: function (result) {
+                    if (result!="sucess"){
+                        $.messager.alert("系统提示",result);
+                    } else {
+                        $.messager.alert("系统提示", "修改成功");
+                        $("#dlg2").dialog("close");
+
+                    }
+                }
+            });
+        }
+        function openaddadm(){
+            $("#dlg3").dialog('open').dialog('setTitle','添加管理员');
+        }
+        function addadm() {
+            $("#addadm").form("submit", {
+                success: function (result) {
+                    if (result!="sucessful"){
+                        $.messager.alert("系统提示",result);
+                    } else {
+                        $.messager.alert("系统提示", "添加成功");
+                        $("#dlg3").dialog("close");
+
+                    }
+                }
+            });
+        }
         var uuid=0;
         $("#displayBox .hd a").click(function(){ $("#displayBox").hide(); });
         function closethis() {
@@ -73,6 +111,59 @@
     </script>
 </head>
 <body>
+<input type="button" value="修改密码" onclick="openxiugaiDialog()">
+<input type="button" value="添加管理员" onclick="openaddadm()">
+
+<div id="dlg2" class="easyui-dialog" style="width:400px;height:180px;padding:10px 20px"
+     closed="true" buttons="#dlg-buttons2">
+    <form id="xiugai" action="xiugai" method="post">
+        <table>
+            <tr>
+                <td>原密码：</td>
+                <td><input type="text" name="oldpwd"> </td>
+            </tr>
+            <tr>
+                <td>新密码：</td>
+                <td><input type="password" name="newpwd"> </td>
+            </tr>
+            <tr>
+                <td>确认密码：</td>
+                <td><input type="password" name="confimpwd"> </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dlg-buttons2">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="xiugaimima() ">确认</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg2').dialog('close')">关闭</a>
+</div>
+<div id="dlg3" class="easyui-dialog" style="width:400px;height:180px;padding:10px 20px"
+     closed="true" buttons="#dlg-buttons3">
+    <form id="addadm" action="add" method="post">
+        <table>
+            <tr>
+                <td>用户名：</td>
+                <td><input type="text" name="username"> </td>
+            </tr>
+            <tr>
+                <td>真实姓名：</td>
+                <td><input type="text" name="name"> </td>
+            </tr>
+            <tr>
+                <td>新密码：</td>
+                <td><input type="password" name="pwd"> </td>
+            </tr>
+            <tr>
+                <td>确认密码：</td>
+                <td><input type="password" name="repwd"> </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="dlg-buttons3">
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="addadm()">确认</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg3').dialog('close')">关闭</a>
+</div>
 <input class="layui-btn layui-btn-warm" type="button" value="添加" onclick="modify2()"/>
 <input class="layui-btn layui-btn-warm" type="button" value="修改" onclick="updatestaff()"/>
 <input class="layui-btn layui-btn-warm" type="button" value="删除" onclick="deletestaff()"/>

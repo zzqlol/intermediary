@@ -46,7 +46,7 @@
 				</thead>
 				<tr th:each="house:${list}" th:attr="id='l'+${house.hisId}" th:onclick="'trclick('+${house.hisId}+')'">
 					<td  th:text="${house.registerDate}"></td>
-					<td  th:text="${house.registerDate}"></td>
+					<td  th:text="${house.nowDate}"></td>
 					<td  th:text="${house.uname}"></td>
 					<td  th:text="${house.state}"></td>
 					<td  th:text="${house.structure}"></td>

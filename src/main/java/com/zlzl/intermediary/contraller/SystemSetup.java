@@ -3,10 +3,7 @@ package com.zlzl.intermediary.contraller;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.zlzl.intermediary.entity.Customer;
 import com.zlzl.intermediary.entity.Staff;
-import com.zlzl.intermediary.repository.CustomerRepository;
-import com.zlzl.intermediary.repository.HouseBasicsRepository;
-import com.zlzl.intermediary.repository.RegionRepository;
-import com.zlzl.intermediary.repository.StaffRepository;
+import com.zlzl.intermediary.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -31,6 +29,8 @@ import java.util.*;
 public class SystemSetup {
     @Resource
     private StaffRepository staffRepository;
+    @Resource
+    private AdministratorsRepository administratorsRepository;
     @RequestMapping("all.do")
     public String go(Model map){
         int page=0;
@@ -118,4 +118,44 @@ public class SystemSetup {
         System.out.println(num);
         return num;
     }
-}
+        @ResponseBody
+        @RequestMapping("xiugai")
+        public String xiugaimima(@RequestParam("oldpwd") String oldpwd,@RequestParam("newpwd") String newpwd,
+                                 @RequestParam("confimpwd") String confimpwd){
+            int id=2;
+            String pwd =administratorsRepository.findpwdbyid(2);
+            if(newpwd==""){
+                return "新密码不能为空！";
+            }else {
+                if (pwd.equals(oldpwd)) {
+                    if (newpwd.equals(confimpwd)) {
+                        int i=administratorsRepository.xiugaimama(newpwd,id);
+                        return "sucess";
+                    } else {
+                        return "请确认密码是否一致！";
+                    }
+                }
+            }
+            return "密码错误！";
+        }
+        @RequestMapping("star")
+        public String getpage(){
+            return "xiugaimima";
+        }
+        @ResponseBody
+        @RequestMapping("add")
+        public String addadm(@RequestParam("username") String username, @RequestParam("name") String name,
+                             @RequestParam("pwd") String pwd, @RequestParam("repwd") String repwd){
+            if(username!=""&&name!=""&&pwd!=""){
+                if(pwd.equals(repwd)){
+                    int t= administratorsRepository.addadm(username,pwd,name);
+                    return"sucessful";
+                }else {
+                    return"两次密码不一致!";
+                }
+            }else{
+                return"信息不完整，无法添加!";
+            }
+
+        }
+    }
