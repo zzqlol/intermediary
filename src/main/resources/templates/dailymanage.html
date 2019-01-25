@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:font-size="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/commonAll.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/style1.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/default.css}" rel="stylesheet" type="text/css" />
+    <title>日常管理</title>
+    <script type="text/javascript" th:inline="javascript">
+        // 刷新网页
+        function refresh() {
+            window.location.reload();
+        }
+        // 单击li显示右侧table信息
+        function show_basicinfo(hbid) {
+            $.ajax({
+                url:"dailyshowinfo",
+                type:"get",
+                data:{
+                    hbid:hbid
+                },
+                success:function (data) {
+                    $("#table_info").html(data)
+                }
+            })
+        }
+        /** 普通跳转 **/
+        function turnto(page){
+           $.ajax({
+               url:"dailytest1",
+               type:"get",
+               data:{
+                   page:page
+               },
+               success:function (data) {
+                    $("#ui_content").html(data)
+               }
+           })
+        }
+        function previous(pageindex) {
+            if (pageindex==1){
+                page=pageindex;
+            } else{
+                page=pageindex-1;
+            }
+            $.ajax({
+                url:"dailytest1",
+                type:"get",
+                data:{
+                    page:page
+                },
+                success:function (data) {
+                    $("#ui_content").html(data)
+                }
+            })
+        }
+        function next(pageindex,pagesum) {
+            if (pageindex==pagesum){
+                page=pageindex;
+            } else{
+                page=pageindex+1;
+            }
+            $.ajax({
+                url:"dailytest1",
+                type:"get",
+                data:{
+                    page:page
+                },
+                success:function (data) {
+                    $("#ui_content").html(data)
+                }
+            })
+        }
+
+        // 改变select信息
+        function search() {
+            var select_state=$("#select_state").val();
+            var select_region=$("#select_regiont").val();
+            var select_structure=$("#select_structure").val();
+            var select_rentalprice=$("#select_rentalprice").val();
+            var select_rentalpricelow;
+            var select_rentalpricehigh;
+            switch (select_rentalprice) {
+                case '0':
+
+                    select_rentalpricelow=0;
+                    select_rentalpricehigh=10000000;
+                    break;
+                case '1':
+
+                    select_rentalpricelow=0;
+                    select_rentalpricehigh=1000;
+                    break;
+                case '2':
+
+                    select_rentalpricelow=1000;
+                    select_rentalpricehigh=2000;
+                    break;
+                case '3':
+
+                    select_rentalpricelow=2000;
+                    select_rentalpricehigh=3000;
+                    break;
+                case '4':
+
+                    select_rentalpricelow=3000;
+                    select_rentalpricehigh=5000;
+                    break;
+                case '5':
+
+                    select_rentalpricelow=5000;
+                    select_rentalpricehigh=10000000;
+                    break;
+            }
+            $.ajax({
+                url:"dailyquery",
+                type:"get",
+                data:{
+                    page:1,
+                    state:select_state,
+                    rid:select_region,
+                    structure:select_structure,
+                    rentalPricelow:select_rentalpricelow,
+                    rentalPricehigh:select_rentalpricehigh
+                },
+                success:function (data) {
+                    $("#ui_content").html(data)
+                }
+            })
+        }
+        function show_info() {
+            $(".alert-dismissible").show();
+        }
+    </script>
+    <style type="text/css">
+        .alt td{ background:black !important;}
+        font{
+            font-family: 微软雅黑;
+        }
+        li{
+            list-style: none;
+        }
+        .pic{
+            width: 320px;
+            height: 300px;
+        }
+        .row-1 li{
+            margin-left: 35px;
+            margin-top: 20px;
+            float: left;
+        }
+        .row-1{
+            width: 1400px;
+        }
+        /*.col-1 li,.col-2 li,.col-3 li{*/
+            /*width: 1400px;*/
+            /*height: 300px;*/
+            /*float: left;*/
+            /*margin-left: 35px;*/
+        /*}*/
+        p{
+            line-height: 12px;
+            font-size: 14px;
+            color: #333333;
+            font-family: 微软雅黑;
+        }
+        #tb_1{
+            position: absolute;
+            margin-left: 1185px;
+            margin-top: 48px;
+            width: 380px;
+            height: 260px;
+            color: black;
+            font-size: 12px;
+
+        }
+        #tb_2{
+            position: absolute;
+            margin-left: 1185px;
+            margin-top: 345px;
+            width: 380px;
+            height: 270px;
+            color: black;
+            font-size: 12px;
+        }
+        tr:hover{background-color: #cddaeb;}
+        tr{border:1px solid black}
+        td{
+            text-align: left;
+            border-left: 1px solid #ECECEC;
+            border-right: 1px solid #ECECEC;
+            border-bottom: 1px solid #ECECEC;
+            font-size: 15px;
+            color: black;
+            height: 36px;
+        }
+        td  .input1{
+            width: 150px;
+        }
+        td .input2{
+            width: 100px;
+        }
+        td .input3{
+            width: 60px;
+        }
+        #bottom{
+            position: absolute;
+            margin-top: 600px;
+            margin-left: 506px;
+        }
+        .pagination li{
+           float: left;
+        }
+        .pagination{
+            position: absolute;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div style="height: 30px;background-color: #337AB7;color: white;font-family: '微软雅黑';font-size: 16px;">
+            <div class="card-body">房屋信息搜索</div>
+        </div><br>
+        <!--表单查询信息-->
+        <form id="submitForm" class="form-inline" name="submitForm" action="" method="post">
+            <input type="hidden" name="allIDCheck" value="" id="allIDCheck"/>
+            <input type="hidden" name="fangyuanEntity.fyXqName" value="" id="fyXqName"/>
+            <div class="card-header"><!--头部选择框信息-->
+                <div id="card">
+
+                    <div id="box_center">
+                        选择房源状态
+                        <select  id="select_state" class="form-control" style="width: 150px;" >
+                            <option value="">--请选择--</option>
+                            <option value="正常状态">正常状态</option>
+                            <option value="已出租">已出租</option>
+                            <option value="已出售">已出售</option>
+                            <option value="失效">失效</option>
+                        </select>
+                        区域
+                        <select  class="form-control" id="select_regiont" onchange="change()">
+                            <option value="0" >--请选择--</option>
+                            <option th:each="region:${list}" th:attr="value=${region.rid}" th:text="${region.rname}"></option>
+                        </select>
+                        户型结构
+                        <select id="select_structure" class="form-control" style="width: 150px;">
+                            <option value="">--请选择--</option>
+                            <option value="一室一厅">一室一厅</option>
+                            <option value="一室两厅">一室两厅</option>
+                            <option value="两室一厅">两室一厅</option>
+                            <option value="两室两厅">两室两厅</option>
+                            <option value="三室一厅">三室一厅</option>
+                            <option value="三室两厅">三室两厅</option>
+                            <option value="四室两厅">四室两厅</option>
+                        </select>
+                        出租价格
+                        <select  id="select_rentalprice" class="form-control" style="width: 150px;">
+                            <option value="0">--请选择--</option>
+                            <option value="1">1000以下</option>
+                            <option value="2">1000-2000</option>
+                            <option value="3">2000-3000</option>
+                            <option value="4">3000-5000</option>
+                            <option value="5">5000以上</option>
+                        </select>
+
+                        智能查询&nbsp;&nbsp;<input type="text" id="fyZldz" name="fangyuanEntity.fyZldz"  style="width: 100px;" class="form-control" placeholder="如：空调"/>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="查询" class="btn btn-primary search" onclick="search();" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="高级搜索" class="btn btn-primary" onclick="gj_search();" />
+                        &nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="图片上传" class="btn btn-primary" onclick="picupload();" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--右侧房源详细信息-->
+    <div id="table_info" th:fragment="table_info"th:each="a:${info}">
+    <table id="tb_1" >
+        <tr>
+            <td colspan="2"><span style="font-size: 12px;" >详细地址：</span><input type="text" class="form-control input1" th:value="${a.detailedAdd}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 12px;">状态：</span><input type="text" class="form-control input2"  th:value="${a.state}" readonly="readonly"/></td>
+            <td><span style="font-size: 12px;">登记时间：</span><input type="text" class="form-control input2"  th:value="${a.registerDate}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 12px;">房屋结构：</span><input type="text" class="form-control input2"  th:value="${a.structure}" readonly="readonly"/></td>
+            <td><span style="font-size: 12px;">面积：</span><input type="text" class="form-control input2"  th:value="${a.area}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 12px;">层高/楼高：</span><input type="text" class="form-control input3"  th:value="|${a.floorHeight}/${a.floor}" readonly="readonly"/></td>
+            <td><span style="font-size: 12px;">装修程度：</span><input type="text" class="form-control input2"  th:value="${a.decoration}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 12px;">用途：</span><input type="text" class="form-control input2"  th:value="${a.purpose}" readonly="readonly"/></td><td>
+            <span style="font-size: 12px;">（出租/出售）说明：</span><input type="text" class="form-control input2"  th:value="${a.rentalExplain}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td><span style="font-size: 12px;">基础设施：</span><input type="text" class="form-control input2"  th:value="${a.infrastructure}" readonly="readonly"/></td>
+            <td><span style="font-size: 12px;">配套设施：</span><input type="text" class="form-control input2"  th:value="${a.facilities}" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><span style="font-size: 12px;">（出租/出售）价格：</span><input type="text" class="form-control input2" style="color:#fa5741 ;" th:value="${a.rentalPrice}" readonly="readonly"/></td>
+        </tr>
+    </table>
+    <br />
+
+    <table id="tb_2">
+        <tr>
+            <td colspan="2"><span style="font-size: 12px;">业主姓名：</span><input type="text" class="form-control input1" th:value="${a.owner}"value="曾自强" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><span style="font-size: 12px;">电话：</span><input type="text" class="form-control input1" th:value="${a.telephone}"value="4823432" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><span style="font-size: 12px;">手机：</span><input type="text" class="form-control input1" th:value="${a.mobilePhone}"value="15674653453" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><span style="font-size: 12px;">地址：</span><input type="text" class="form-control input1" th:value="${a.specificAddress}"value="金星路和谐花园137号" readonly="readonly"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><span style="font-size: 12px;">详细说明：</span><textarea class="form-control" th:text="${a.sellExplain}"readonly="readonly">不能太吵，不能扰民</textarea></td>
+        </tr>
+        <tr>
+            <td colspan="2"><span style="font-size: 12px;">置业顾问：</span><input type="text" class="form-control input1" th:value="${a.uname}"value="郑康旺" readonly="readonly"/></td>
+        </tr>
+    </table>
+    </div>
+    <div class="ui_content"th:fragment="ui_content" id="ui_content">
+        <div class="domelist" >
+            <ul class="row-1" >
+                <!--第一个主体内容-->
+                <li th:each="a:${pagelist}" th:ondblclick="'showdisplaybox1('+${a.hdId}+','+${a.rentalPrice}+')'">
+                        <div th:onclick="'show_basicinfo('+${a.hdId}+')'" >
+                            <div class="pic pic-1">
+                                <div class="content-panel pn" >
+                                    <div id="blog-bg" th:style="'background:url(../image/' +${a.photo} + ');background-seze:cover '"></div>
+                                  <div class="blog-text">
+                                        <p style="font-weight: bold; font-size: 18px;color: black;" th:text="|${a.vname}|"></p>
+                                        <p th:text="|${a.rname} / ${a.area}平米 /  ${a.floorHeight}/${a.floor}楼  ${a.structure}|"></p>
+                                        <p th:text="${a.detailedAdd}"></p>
+                                        <p >出租价格：<span style="color:#fa5741;"  th:text="|${a.rentalPrice}元/月|"></span></p>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                </li>
+            </ul>
+        </div>
+
+    <!--页脚-->
+    <div id="bottom" >
+        <div style="height: 10px; line-height: 30px; text-align: center;">
+            共有
+            <span class="text-primary" th:text="${length}"></span>
+            条记录，当前第
+            <span class="text-primary" th:text="|${pageindex}/${pagesum}|"></span>
+            页
+        </div>
+        <div class="pagination">
+            <li th:onclick="'previous('+${pageindex}+')'" ><a href="#">&laquo;</a></li>
+                <li th:each="pagenum1:${#numbers.sequence(1,pagesum)}" >
+                    <a href="#"name="pageid" th:text="${pagenum1}" th:onclick="'turnto('+${pagenum1}+')'" ></a>
+                </li>
+            <li th:onclick="'next('+${pageindex}+','+${pagesum}+')'" ><a href="#">&raquo;</a></li>
+        </div>
+    </div>
+    </div>
+
+    <!--中间图片样式的引入js-->
+    <script th:src="@{/js/jquery.dcjqaccordion.2.7.js}" class="include"></script>
+    <script th:src="@{/js/jquery.nicescroll.js}"></script>
+    <script th:src="@{/js/jquery.sparkline.js}"></script>
+    <script th:src="@{/js/common-scripts.js}"></script>
+    <script th:src="@{/js/sparkline-chart.js}"></script>
+    <!-- 隐藏代码盒子 S -->
+    <div id="displayBox" >
+        <div class="hd"><a>X</a><h3></h3></div>
+        <div class="bd">
+            <iframe scrolling="yse" src="" frameborder="0"></iframe>
+        </div>
+        <div class="dd">
+            <input type="button" value="确定" onclick="confirm()" class="btn btn-primary"/>
+            <input type="button" value="取消" onclick="cancel()" class="btn btn-label-right"/>
+        </div>
+    </div>
+    <!--高级搜索-->
+    <div id="displayBox1" >
+        <div class="hd"><a>X</a><h3></h3></div>
+        <div class="bd">
+            <iframe scrolling="yse" src="" frameborder="0"></iframe>
+        </div>
+        <div class="dd">
+            <input type="button" value="取消" onclick="cancel1()" class="btn btn-label-right"/>
+        </div>
+    </div>
+    <!--填写客户信息-->
+    <div id="displayBox2">
+        <div class="hd"><a>X</a><h3></h3></div>
+        <div class="bd">
+            <iframe scrolling="yse" src="" frameborder="0"></iframe>
+        </div>
+        <div class="dd">
+
+        </div>
+    </div>
+    <!--图片上传-->
+    <div id="displayBox3">
+        <div class="hd"><a>X</a><h3></h3></div>
+        <div class="bd">
+            <iframe scrolling="yse" src="" frameborder="0"></iframe>
+        </div>
+        <div class="dd">
+
+        </div>
+    </div>
+    <!--信息提示框-->
+    <div class="alert alert-info alert-dismissible"
+         style="width: 320px;height: 100px;text-align: center;display: none;margin-left:430px;margin-top:240px;position: absolute; font-size:18px;">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <strong>成功!</strong> 您成功完成交易！
+    </div>
+    <script>
+        function cancel(){
+            $("#displayBox").hide();
+        }
+        function cancel1(){
+            $("#displayBox1").hide();
+        }
+        function cancel2(){
+            $("#displayBox2").hide();
+        }
+        function cancel3(){
+            $("#displayBox3").hide();
+        }
+        function showdisplaybox1(hdId,rentalPrice){
+            $("#displayBox h3").text("房源图片展示");
+            $("#displayBox iframe").attr("src","dailypicshow?hdId="+hdId);
+            hdId1=hdId;
+            $("#displayBox").show();
+        }
+        var hdId1=0;
+        function gj_search(){
+            $("#displayBox1 h3").text("高级搜索");
+            $("#displayBox1 iframe").attr("src","dailygjsearch");
+            $("#displayBox1").show();
+        }
+        function confirm(){
+            $("#displayBox2 h3").text("填写客户信息");
+            $("#displayBox2 iframe").attr("src","dailytransaction?hdId="+hdId1);
+            $("#displayBox2").show();
+            $("#displayBox").hide();
+        }
+        function picupload(){
+            $("#displayBox3 h3").text("房源图片上传");
+            $("#displayBox3 iframe").attr("src","picupload");
+            $("#displayBox3").show();
+        }
+        //		//当前效果代码
+        $("#displayBox .hd a").click(function(){ $("#displayBox").hide();
+            $("#displayBox iframe").attr("src","dailypicshow") });
+        //关闭隐藏盒子
+        $("#displayBox").blur( function(){ $(this).hide } );
+        //当前效果代码复制
+        $("#displayBox1 .hd a").click(function(){ $("#displayBox1").hide();
+            $("#displayBox1 iframe").attr("src","dailygjsearch") });
+        //关闭隐藏盒子复制
+        $("#displayBox1").blur( function(){ $(this).hide } );
+        //当前效果代码
+        $("#displayBox2 .hd a").click(function(){ $("#displayBox2").hide();
+            $("#displayBox2 iframe").attr("src","dailytransaction") });
+        //关闭隐藏盒子
+        $("#displayBox3").blur( function(){ $(this).hide } );
+        $("#displayBox3 .hd a").click(function(){ $("#displayBox3").hide();
+            $("#displayBox33 iframe").attr("src","dailytransaction") });
+        //关闭隐藏盒子
+        $("#displayBox3").blur( function(){ $(this).hide } );
+    </script>
+</body>
+</html>

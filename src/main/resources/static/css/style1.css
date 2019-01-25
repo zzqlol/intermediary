@@ -1269,7 +1269,6 @@ PANELS CONFIGURATIONS
 
 /* BLOG PANEL */
 #blog-bg {
-	background: url(../image/blog-bg.jpg) no-repeat center top;/*替换房屋图片*/
 	margin-top: -20px;
 	background-attachment: relative;
 	background-position: center center;
