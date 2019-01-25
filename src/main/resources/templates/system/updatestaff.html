@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/laydate/laydate.js}"></script>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/jquery.dcjqaccordion.2.7.js}" class="include"></script>
+    <script th:src="@{/js/jquery.nicescroll.js}"></script>
+    <script th:src="@{/js/jquery.sparkline.js}"></script>
+    <script th:src="@{/js/sparkline-chart.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/commonAll.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/style1.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/default.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/layui.css}" rel="stylesheet" type="text/css" />
+    <script>
+        function changethis() {
+            var uid=$("#uid").val();
+            var uname = $("#uname").val();
+            var sex = 0;
+            var telephone = $("#telephone").val();
+            var time = $("#staffDate").val();
+            var deptno =0;
+            var checksex=$("#checksex").is(":checked");
+            var checkdep=$("#checkdep").is(":checked");
+            if (checksex==false){
+                 sex = $("#sex1").val();
+            } else {
+                sex = $("#sex").val();
+            }
+            if (checkdep==false){
+                var deptno = $("#dep1").val();
+            } else{
+                var deptno = $("#dep").val();
+            }
+            alert(sex);
+            $.ajax({
+                url: "updatestaff.do",
+                type: "post",
+                data: {
+                  uuid:uid,uname: uname, sex: sex, telephone: telephone, time: time, deptno: deptno
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        parent.staffgotomain1();
+                    } else {
+                        alert("添加失败失败");
+                    }
+
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<table class="layui-table">
+<tr th:each="staff:${list}"></tr>
+    <tr>
+    <td>员工编号：<input type="text" readonly width="50px" id="uid" th:value="${list.get(0).uid}"></td>
+    <td>员工姓名：<input type="text" th:id="uname" th:value="${list.get(0).uname}"><br></td>
+    <td>员工性别：<input type="text" id="sex1" readonly width="50px"  th:value="${list.get(0).sex}"></td><tr>
+    <td>联系电话：<input type="text" th:id="telephone" th:value="${list.get(0).telephone}"><br></td>
+    <td>入职时间：<input type="text"  width="50px" id="staffDate" th:value="${list.get(0).staffDate}"></td>
+    <td>所属部门：<input type="text" id="dep1" readonly  th:value="${list.get(0).dname}"><br><br></td></tr>
+<tr>
+    <td>请在此处修改性别与所属部门</td>
+    <td>请点击需要修改的内容</td>
+</tr>
+    <tr>
+<td><input type="checkbox" id="checksex">员工性别：<select id="sex">
+    <option value="男">男</option>
+    <option value="女">女</option>
+</select></td>
+        <td><input type="checkbox"id="checkdep">所属部门:：<select id="dep">
+    <option value="10">人事部</option>
+    <option value="20">市场部</option>
+    <option value="30">财务部</option>
+        </select></td></tr>
+</table>
+<br><br><br>
+<div style="margin: auto">
+<button class="layui-btn" onclick="changethis()">修改</button>
+</div>
+<script>
+    laydate.render({
+        elem: '#staffDate'
+    });
+</script>
+</body>
+</html>

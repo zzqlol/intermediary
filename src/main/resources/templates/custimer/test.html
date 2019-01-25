@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+      <style>
+       #xiangxi,#zidong{
+           display: none;
+       }
+    </style>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/jquery.dcjqaccordion.2.7.js}" class="include"></script>
+    <script th:src="@{/js/jquery.nicescroll.js}"></script>
+    <script th:src="@{/js/jquery.sparkline.js}"></script>
+    <script th:src="@{/js/sparkline-chart.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/commonAll.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/style1.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/default.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/layui.css}" rel="stylesheet" type="text/css" />
+    <script th:inline="javascript">
+        $(function () {
+            document.onkeydown =cdk;
+            function cdk(){
+                if(event.keyCode ==119){
+                    fun1();
+                }
+            }
+        });
+
+            function detailed() {
+                $("#chuzu").css("display", "block");
+                $("#xiangxi").css("display", "none");
+                $("#zidong").css("display", "none");
+            }
+
+            function secrecy() {
+                $("#xiangxi").css("display", "block");
+                $("#chuzu").css("display", "none");
+                $("#zidong").css("display", "none");
+            }
+
+            function automatic() {
+                $("#zidong").css("display", "block");
+                $("#chuzu").css("display", "none");
+                $("#xiangxi").css("display", "none");
+                var rname = $("#rname").val();
+                var rentalPrice = $("#seekprice").val();
+                var sellPrice = $("#buyprice").val();
+                var decoration = $("#decoration").val();
+                $.ajax({
+                    url:"recommend.do",
+                    type:"post",
+                    data:{
+                        rname:rname,rentalPrice:rentalPrice,sellPrice:sellPrice,decoration:decoration
+                    },
+                    success:function (data) {
+                        for( var i = 0; i < data.length; i++ ) {
+                            var tr = $("<tr></tr>");
+                            tr.append("<td>"+ data[i].hbId +"</td>");
+                            tr.append("<td>"+ data[i].owner +"</td>");
+                            tr.append("<td>"+ data[i].telephone +"</td>");
+                            tr.append("<td>"+ data[i].registerDate +"</td>");
+                            tr.append("<td>"+ data[i].state +"</td>");
+                            tr.append("<td>"+ data[i].area +"</td>");
+                            tr.append("<td>"+ data[i].rname +"</td>");
+                            tr.append("<td>"+ data[i].vname +"</td>");
+                            tr.append("<td>"+ data[i].structure +"</td>");
+                            tr.append("<td>"+ data[i].decoration +"</td>");
+                            tr.append("<td>"+ data[i].uname +"</td>");
+                            tr.append("<td>"+ data[i].infrastructure +"</td>");
+                            tr.append("<td>"+ data[i].facilities +"</td>");
+                            tr.append("<td>"+ data[i].specificAddress +"</td>");
+                            $("#pipei").append(tr);
+                        }
+                    }
+                })
+            }
+        function fun1(){
+            $("#displayBox h3").text("高级查询页面");
+            $("#displayBox iframe").attr("src","query.do");
+            $("#displayBox").show();
+        }
+        var thiscid =0;
+        var uname=$("#uname").val();
+        var sell=$("#sell").is(":checked");
+        var lease=$("#lease").is(":checked");
+        var time=$("#time").is(":checked");
+        var days=$("#days").val();
+
+        function findbyuname(){
+            uname =$("#uname").val();
+            ajax();
+        }
+        $(function(){
+            $("#lease").bind("click",function(){
+                lease=$("#lease").is(":checked");
+                $("#sell").prop("checked",false);
+                sell=$("#sell").is(":checked");
+                uname=$("#uname").val();
+                ajax();
+            });
+            $("#sell").bind("click",function(){
+                sell=$("#sell").is(":checked");
+                $("#lease").prop("checked",false);
+                lease=$("#lease").is(":checked");
+                uname=$("#uname").val();
+                ajax();
+            });
+            $("#time").bind("click",function(){
+                time=$("#time").is(":checked");
+                lease=$("#lease").is(":checked");
+                sell=$("#sell").is(":checked");
+                uname=$("#uname").val();
+                days=$("#days").val();
+                ajax();
+            });
+
+        });
+        function ajax() {
+            $.ajax({
+                url:"condition.do",
+                type:"post",
+                data:{
+                    uname:uname,sell:sell,lease:lease,time:time,days:days
+                },
+                success:function (data) {
+                    $("#div1").html(data);
+                }
+            })
+        }
+function  trclick(cid) {
+    $("tr").css("background-color","white");
+    $("#"+cid).css("background-color","pink");
+    thiscid=cid;
+    $.ajax({
+        url:"onetomore.do",
+        type:"post",
+        data:{
+            cid:cid
+        },
+        success:function (data) {
+            $("#more").html(data);
+        }
+    })
+        }
+    function update2(html) {
+        $("#div1").html(html);
+    }
+    function ajaxx(page) {
+        var days1=$("#days").val();
+        var uname1=$("#uname").val();
+        $.ajax({
+            url:"condition.do",
+            type:"post",
+            data:{
+                uname:uname1,sell:sell,lease:lease,time:time,days:days1,pages:page
+            },
+            success:function (data) {
+                $("#div1").html(data);
+            }
+        })
+    }
+
+        function modify2(){
+            $("#displayBox h3").text("客户增加页面");
+            $("#displayBox iframe").attr("src","addCust.do");
+            $("#displayBox").show();
+        }
+        function updatecust(){
+            if (thiscid==0){
+                alert("请选择修改的用户")
+            } else{
+                $("#displayBox h3").text("客户修改页面");
+                $("#displayBox iframe").attr("src","updatecust.do?cid="+thiscid);
+                $("#displayBox").show();
+                thiscid=0;
+            }
+
+        }
+        function deletecust(){
+            $.ajax({
+                url:"deletecust.do",
+                type:"post",
+                data:{
+                    cid:thiscid
+                },
+                success:function (data) {
+                    $.ajax({
+                        url: "frush.do",
+                        type: "post",
+                        data: {},
+                        success: function (data) {
+                            alert("删除成功");
+                            thiscid=0;
+                            window.location.reload();
+                        }
+                    })
+                }
+            })
+        }
+        $("#displayBox .hd a").click(function(){ $("#displayBox").hide(); });
+        function closethis() {
+            $("#displayBox").hide();
+        }
+        function checkpage(page) {
+            ajaxx(page);
+        }
+        function downpage() {
+            var thispage = $("#thispage").text();
+            var allpage = $("#allpages").text();
+        if (thispage>1){
+            thispage=parseInt(thispage)-1;
+            ajaxx(thispage);
+        }
+        else
+        {
+            ajaxx(thispage);
+        }
+        }
+        function  onpage() {
+            var thispage = $("#thispage").text();
+            var allpage = $("#allpages").text();
+            if (thispage<allpage){
+                thispage=parseInt(thispage)+1;
+                ajaxx(thispage);
+            }
+            else
+            {
+                ajaxx(thispage);
+            }
+        }
+        function  frush() {
+            window.location.reload();
+        }
+
+    </script>
+
+
+
+</head>
+<body>
+<div>
+    <input class="layui-btn layui-btn-warm" type="button" value="添加" onclick="modify2()"/>
+    <input class="layui-btn layui-btn-warm" type="button" value="修改" onclick="updatecust()"/>
+    <input class="layui-btn layui-btn-warm" type="button" value="删除" onclick="deletecust()"/>
+
+</div>
+<div>
+请输入客源信息查询：<input type="text" id="uname" name="uname"><button><img th:src="@{/picture/sousuo.png}"  height="16" width="16" onclick="findbyuname()"/></button>
+<button onclick="fun1()">高级查询【F8】</button>
+<input  type="checkbox" id="lease"  />只看出租
+<input  type="checkbox" id="sell" />只看购买
+<input  type="checkbox" id="time"/>只显示最近<input type="text" id="days" style="width: 15px;">天
+<button onclick="frush()">刷新</button>
+<br>
+</div>
+    <div th:fragment="div1" id="div1">
+        <div>
+<table id="table" class="layui-table">
+    <tr>
+        <td>当前状态</td>
+        <td>客户名</td>
+        <td>登记日期</td>
+        <td>需求面积</td>
+        <td>所处区域</td>
+        <td>房间数量</td>
+        <td>基础设置</td>
+        <td>装修程度</td>
+        <td>置业顾问</td>
+    </tr>
+    <tr th:each="cust:${list}" th:attr="id='c'+${cust.cid}" onclick="trclick(this.id)">
+        <td th:text="${cust.cusState}"></td>
+        <td th:text="${cust.cname}"></td>
+        <td th:text="${cust.inputDate  }"></td>
+        <td th:text="${cust.area}"></td>
+        <td th:text="${cust.rname}"></td>
+        <td th:text="${cust.structure}"></td>
+        <td th:text="${cust.infrastructure}"></td>
+        <td th:text="${cust.decoration}"></td>
+        <td th:text="${cust.uname}"></td>
+    </tr>
+</table>
+            共有<span th:value="无" th:text="${size}"></span>条数据
+            <p>共<span th:value="无" id="allpages" th:text="${pages}"></span>页</p>当前为第<span th:value="无" id="thispage" th:text="${page}"></span>页<br />
+            <button class="layui-btn layui-btn-sm layui-btn-primary"   value="1" onclick="checkpage(this.value)">首页</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary"  onclick="downpage()">上一页</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary"  value="1" onclick="checkpage(this.value)">1</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" value="2" onclick="checkpage(this.value)">2</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" value="3" onclick="checkpage(this.value)">3</button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary"  onclick="onpage()">下一页</button>
+            <br>
+        </div>
+<div>
+    <table class="layui-table">
+
+        <input 	class="layui-btn layui-btn-radius layui-btn-primary" type="button" value="房源详细信息" id="detailed" onclick="detailed()"/><input class="layui-btn layui-btn-radius layui-btn-primary" type="button" value="房源保密信息" id="secrecy" onclick="secrecy()"/>
+        <input 	class="layui-btn layui-btn-radius layui-btn-primary" type="button" value="自动匹配的客户" id="automatic" onclick="automatic()"/>
+    </table>
+
+    <div th:fragment="more" id="more">
+    <div id="chuzu">
+        <table class="layui-table">
+            <tr><td>求租价格：<input type="text" width="50px" readonly="readonly" id="seekprice" th:value="${list.get(0).seekPrice}">元/月</td><td>求租说明：<input type="text" readonly="readonly" th:value="${list.get(0).seekExplain}"></td><td>基础设施：<input type="text" readonly="readonly" id="infrastructure" th:value="${list.get(0).infrastructure}"></td></tr>
+            <tr><td>求售价格：<input type="text" width="50px" readonly="readonly" id="buyprice" th:value="${list.get(0).buyPrice}">万元</td><td>求售说明：<input type="text" readonly="readonly" th:value="${list.get(0).buyExplain}"></td><td>配套设施：<input type="text" readonly="readonly" id="facilities" th:value="${list.get(0).facilities}"></td></tr>
+            <tr><td>当前状态：<input type="text" readonly="readonly" th:value="${list.get(0).cusState}"></td><td>置业顾问：<input type="text" readonly="readonly" th:value="${list.get(0).uname}"></td><td>具体地址：<input type="text" readonly="readonly" th:value="无"></td></tr>
+            <tr><td>所处区域：<input type="text" readonly="readonly" id="rname" th:value="${list.get(0).rname}"></td><td>装修程度：<input type="text" readonly="readonly" id="decoration" th:value="${list.get(0).decoration}"></td><td>详细信息：<input type="textbox" readonly="readonly" th:value="无"></td></tr>
+            <tr><td>户型结构：<input type="text" readonly="readonly" id="structure" th:value="${list.get(0).structure}"></td><td>建筑面积：<input type="text" width="30px" id="area" readonly="readonly" th:value="${list.get(0).area}"></td></tr>
+        </table>
+    </div>
+    <div id="xiangxi">
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col width="200">
+                <col>
+            </colgroup>
+            <tr><td>客户姓名：<input type="text" readonly="readonly" th:value="${list.get(0).cname}"> </td><td>联系电话：<input type="text" readonly="readonly" th:value="${list.get(0).mobilePhone}"></td><td> 联系手机：<input type="text" readonly="readonly" th:value="${list.get(0).mobilePhone}"></td></tr>
+            <tr><td>具体位置：<input type="text" readonly="readonly" th:value="无" ></td><td>备注说明：<input type="text" readonly="readonly" th:value="无" ></td></tr>
+        </table>
+</div>
+    <div id="zidong">
+        <table id="pipei" class="layui-table">
+        >
+            <tr>
+                <th>房源编号</th>
+                <th>业主姓名</th>
+                <th>联系电话</th>
+                <th>登记日期</th>
+                <th>当前状态</th>
+                <th>建筑面积</th>
+                <th>所处区域</th>
+                <th>所在小区</th>
+                <th>户型结构</th>
+                <th>装修程度</th>
+                <th>置业顾问</th>
+                <th>基础设施</th>
+                <th>配套设施</th>
+                <th>具体地址</th>
+            </tr>
+        </table>
+    </div>
+    </div>
+    </div>
+</div>
+</div>
+<div id="displayBox">
+    <div class="hd"><a onclick="closethis()">×</a><h3></h3></div>
+    <div class="bd">
+        <iframe scrolling="yes" src="" frameborder="0"></iframe>
+    </div>
+</div>
+<script>
+    function gotomain() {
+        $("#displayBox").hide();
+        window.location.reload();
+        alert("添加成功")
+    }
+    function gotomain1() {
+        $("#displayBox").hide();
+        window.location.reload();
+    }
+</script>
+</body>
+</html>

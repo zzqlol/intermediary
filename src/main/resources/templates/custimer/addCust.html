@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/jquery.dcjqaccordion.2.7.js}" class="include"></script>
+    <script th:src="@{/js/jquery.nicescroll.js}"></script>
+    <script th:src="@{/js/jquery.sparkline.js}"></script>
+    <script th:src="@{/js/common-scripts.js}"></script>
+    <script th:src="@{/js/sparkline-chart.js}"></script>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/commonAll.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/style1.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/default.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/layui.css}" rel="stylesheet" type="text/css" />
+    <style>
+        #mimi{
+            display: none;
+        }
+
+    </style>
+    <script>
+        function baocun() {
+            var state=$("#state").val();
+            var uname=$("#uname").val();
+            var purpose=$("#purpose").val();
+            var decoration=$("#decoration").val();
+            var rname =$("#rname").val();
+            var structure =$("#structure").val();
+            var arealow=$("#arealow").val();
+            var areabig=$("#areabig").val();
+            var infrastructure=$("#infrastructure").val();
+            var facilities=$("#facilities").val();
+            var cname = $("#cname").val();
+            var leaselow = $("#leaselow").val();
+            var selllow = $("#selllow").val();
+            var leasebig = $("#leasebig").val();
+            var sellbig = $("#sellbig").val();
+            var telephone = $("#telephone").val();
+            var sell=$("#sell").is(":checked");
+            var lease=$("#lease").is(":checked");
+             if(uname==""||uname==null){
+                alert("此员工不存在或者没有选择");
+            }else if(cname==""||cname==null){
+                alert("客户姓名不为空");
+            }else if(sell==false&&lease==false){
+                alert("请选择求租类型");
+            }else {
+                $.ajax({
+                    url:"insertCust.do",
+                    type:"post",
+                    data:{
+                        state:state,uname:uname,purpose:purpose,decoration:decoration,
+                        rname:rname,structure:structure,arealow:arealow,areabig:areabig,infrastructure:infrastructure,
+                        facilities:facilities,cname:cname,leaselow:leaselow,selllow:selllow,leasebig:leasebig,
+                        sellbig:sellbig,sell:sell,lease:lease,telephone:telephone
+                    },
+                    success:function (data) {
+                        parent.gotomain();
+                        $.ajax({
+                            url:"frush.do",
+                            type:"post",
+                            data:{
+
+                            },
+                            success:function (data) {
+                                alert("添加成功")
+                            }
+                        })
+                    }
+                })
+            }
+        }
+
+
+        function update1(html) {
+            $("#div1").html(html);
+        }
+        function openuname(){
+            $("#displayBox h3").text("查看顾问页面");
+            $("#displayBox iframe").attr("src","showstaff.do");
+            $("#displayBox").show();
+        }
+        $("#displayBox .hd a").click(function(){ $("#displayBox").hide(); });
+        function closethis() {
+            $("#displayBox").hide();
+            /*ajax(page);*/
+        }
+        function controlneed() {
+            $("#need").css("display","block");
+            $("#mimi").css("display","none");
+        }
+        function controlmimi() {
+            $("#need").css("display","none");
+            $("#mimi").css("display","block");
+        }
+        function confrim() {
+            $("#displayBox").hide();
+        }
+       /* function gotomain() {
+            parent.gotomain();
+
+        }*/
+    </script>
+</head>
+<body>
+      <div><tr>
+          <table class="layui-table">
+              <td>
+         客户来源：<select id="from">
+         <option value="来访">来访</option>
+         <option value="来电">来电</option>
+         <option value="网络">网络</option>
+         <option value="介绍">介绍</option>
+     </select></td> <td>
+     当前状态：<select id="state">
+         <option value="有效客户">有效客户</option>
+         <option value="潜在签约">潜在客户</option>
+         <option value="已签约">已签约</option>
+         <option value="已失效">已失效</option>
+     </select></td>
+          <div th:fragment="div1" id="div1"><td>
+     置业顾问：<input type="text" th:value="${uname}" id="uname"><button onclick="openuname()" style="color: red;">＋</button>
+          </td>
+              </tr>
+          </div>
+          </table>
+     </div>
+
+          <button class="layui-btn layui-btn-primary" onclick="controlneed()">客户需求</button>
+     <button class="layui-btn layui-btn-primary" onclick="controlmimi()">保密信息</button>
+
+     <div id="need">
+         <table class="layui-table">
+         <tr><td>房屋类型：<select id="purpose">
+         <option value="不限">不限</option>
+         <option value="住宅">住宅</option>
+         <option value="商铺">商铺</option>
+         <option value="仓库">仓库</option>
+     </select></td> <td>
+    装修程度：<select id="decoration">
+         <option value="不限">不限</option>
+         <option value="精装">精装</option>
+         <option value="普装">普装</option>
+         <option value="简装">简装</option>
+     </select></td> <td>
+     所处区域<select id="rname">
+         <option value="不限">不限</option>
+         <option value="东城区">东城区</option>
+         <option value="西城区">西城区</option>
+         <option value="南城区">南城区</option>
+         <option value="汇林区">汇林区</option>
+     </select></td></tr><tr>
+         <td>房间数量<select id="structure">
+         <option value="不限">不限</option>
+         <option value="三室一厅一阳一卫">三室一厅一阳一卫</option>
+         <option value="二室一厅一阳一卫">二室一厅一阳一卫</option>
+         <option value="一室一厅一阳一卫">一室一厅一阳一卫</option>
+         <option value="二室一厅一卫">二室一厅一卫</option>
+         <option value="一室一厅一卫">一室一厅一卫</option>
+     </select></td>
+             <td> 建筑面积<input type="text" id="arealow">--<input type="text" id="areabig"></td></tr>
+             <tr>
+         <td> 基础设施<input type="text" id="infrastructure" width="500px"></td>
+         <td> 配套设施<input type="text" id="facilities" width="500px"></td></tr>
+         </table>
+     </div>
+     <div id="mimi">
+         <table class="layui-table">
+         <tr>
+             <td>客户姓名:<input type="text" id="cname"> &nbsp;&nbsp;</td>
+             <td>  联系电话<input type="text" id="telephone"></td></tr><tr>
+             <td>联系地址:<input type="text" id="dizhi"></td>
+             <td>备注说明:<textarea id="xiangxishuoming" ></textarea></td></tr>
+         </table>
+     </div>
+     <div>
+         <table class="layui-table">
+         <tr>
+         <td><input  type="checkbox" id="lease"  />求租&nbsp;&nbsp;&nbsp;
+             求租价<input type="text" id="leaselow">--<input type="text" id="leasebig">元/月</td>
+             <td>求租说明<input type="text" id="leasemore"></td></tr><tr>
+         <td><input  type="checkbox" id="sell"   />求售&nbsp;&nbsp;&nbsp;
+         求售价<input type="text" id="selllow">--<input type="text" id="sellbig">万元&nbsp;</td>
+         <td>求售说明<input type="text" id="sellmore"></td></tr>
+         </table>
+     </div>
+
+     <button class="layui-btn layui-btn-primary" onclick="baocun()">保存</button>
+      <!--<button onclick="gotomain()">关闭</button>-->
+     <div id="displayBox">
+         <div class="hd"><a onclick="closethis()">×</a><h3></h3></div>
+         <div class="bd">
+             <iframe scrolling="yes" src="" frameborder="0"></iframe>
+         </div>
+     </div>
+
+</body>
+</html>

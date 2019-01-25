@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <link th:href="@{/css/layui.css}" rel="stylesheet" type="text/css" />
+    <script>
+        function gotomain() {
+            var state=$("#state").val();
+            var uname=$("#uname").val();
+            var purpose=$("#purpose").val();
+            var decoration=$("#decoration").val();
+            var rname =$("#rname").val();
+            var structure =$("#structure").val();
+            var area=$("#area").val();
+            var infrastructure=$("#infrastructure").val();
+            var facilities=$("#facilities").val();
+            var cname = $("#cname").val();
+            var telephone = $("#telephone").val();
+            var cname = $("#cname").val();
+            var seekprice = $("#seekprice").val();
+            var buyprice = $("#buyprice").val();
+            var buyExplain = $("#buyExplain").val();
+            var seekExplain = $("#seekExplain").val();
+            var cid=$("#cid").val();
+            $.ajax({
+                url: "updatetoCust.do",
+                type: "post",
+                data: {
+                    cid:cid,
+                    seekPrice:seekprice,
+                    buyPrice:buyprice,
+                    buyExplain:buyExplain,
+                    seekExplain:seekExplain,
+                    state:state,
+                    uname:uname,
+                    purpose:purpose,
+                    decoration:decoration,
+                    rname:rname,
+                    structure:structure,
+                    area:area,
+                    infrastructure:infrastructure,
+                    facilities:facilities,
+                    cname:cname,
+                    telephone:telephone
+                },
+                success: function (data) {
+                    parent.gotomain1();
+                    $.ajax({
+                        url: "frush.do",
+                        type: "post",
+                        data: {},
+                        success: function (data) {
+                            alert("修改成功")
+                        }
+                    })
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<table class="layui-table">
+    <tr th:each="cust:${list}" th:attr="id='c'+${cust.cid}"></tr>
+    <tr><td>求租价格：<input type="text" width="50px" id="seekprice" th:value="${list.get(0).seekPrice}">元/月</td><td>求租说明：<input type="text" th:id="seekExplain" th:value="${list.get(0).seekExplain}"></td></tr>
+
+    <tr><td>求售价格：<input type="text" width="50px" id="buyprice" th:value="${list.get(0).buyPrice}">万元</td><td>求售说明：<input type="text" th:id="buyExplain" th:value="${list.get(0).buyExplain}"></td></tr>
+    <tr><td>当前状态：<input type="text" id="state"  th:value="${list.get(0).cusState}"></td><td>置业顾问：<input type="text" id="uname" th:value="${list.get(0).uname}"></td></tr>
+    <tr><td>所处区域：<input type="text"  id="rname" th:value="${list.get(0).rname}"></td><td>装修程度：<input type="text" th:id="decoration"  id="decoration" th:value="${list.get(0).decoration}"></td></tr>
+
+    <tr><td>户型结构：<input type="text"  id="structure" th:value="${list.get(0).structure}"></td><td>建筑面积：<input type="text" width="30px" id="area"  th:value="${list.get(0).area}"></td></tr>
+    <tr><td>基础设施：<input type="text"  id="infrastructure" th:value="${list.get(0).infrastructure}"></td><td>配套设施：<input type="text"  id="facilities" th:value="${list.get(0).facilities}"></td></tr>
+
+    <tr><td>房屋类型：<input type="text" id="purpose"  th:value="${list.get(0).purpose}"></td><td>详细信息：<input type="textbox"  th:value="无"></td></tr>
+    <tr><td>客户编号：<input type="text" th:id="cid"  th:value="${list.get(0).cid}"></td><td>客户姓名：<input type="text" th:id="cname" th:value="${list.get(0).cname}"> 联系电话：<input type="text" th:id="telephone"  th:value="${list.get(0).mobilePhone}"> </td></tr>
+    <tr><td>具体位置：<input type="text"  th:value="无" ></td><td>备注说明：<input type="text"  th:value="无" ></td></tr>
+
+</table>
+<button class="layui-btn" onclick="gotomain()">确定</button>
+</body>
+</html>

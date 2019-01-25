@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>系统设置</title>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/jquery.dcjqaccordion.2.7.js}" class="include"></script>
+    <script th:src="@{/js/jquery.nicescroll.js}"></script>
+    <script th:src="@{/js/jquery.sparkline.js}"></script>
+    <script th:src="@{/js/sparkline-chart.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/commonAll.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/style1.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/default.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/layui.css}" rel="stylesheet" type="text/css" />
+    <script>
+        var uuid=0;
+        $("#displayBox .hd a").click(function(){ $("#displayBox").hide(); });
+        function closethis() {
+            $("#displayBox").hide();
+        }
+        function modify2(){
+            $("#displayBox h3").text("员工增加页面");
+            $("#displayBox iframe").attr("src","toaddstaff.do");
+            $("#displayBox").show();
+        }
+        function updatestaff(){
+            if (uuid==0){
+                alert("请选择修改的员工")
+            }else{
+                $("#displayBox h3").text("员工修改页面");
+                $("#displayBox iframe").attr("src","toupdatestaff.do?uuid="+uuid);
+                $("#displayBox").show();
+            }
+
+        }
+        function  trclick(uid) {
+            uuid=uid;
+        }
+        function deletestaff(){
+            if (uuid==0){
+                alert("请选择删除的员工")
+            } else{
+            $.ajax({
+                url:"deletestaff.do",
+                type:"post",
+                data:{
+                    uuid:uuid
+                },
+                success:function (data) {
+                    if(data==1){
+                        alert("删除成功");
+                        window.location.reload();
+                    }else{
+                        alert("删除失败");
+                    }
+
+                }
+            })
+            }
+        }
+        function staffgotomain() {
+            alert("添加成功")
+            $("#displayBox").hide();
+            window.location.reload();
+        }
+        function staffgotomain1() {
+            alert("修改成功")
+            $("#displayBox").hide();
+            window.location.reload();
+        }
+    </script>
+</head>
+<body>
+<input class="layui-btn layui-btn-warm" type="button" value="添加" onclick="modify2()"/>
+<input class="layui-btn layui-btn-warm" type="button" value="修改" onclick="updatestaff()"/>
+<input class="layui-btn layui-btn-warm" type="button" value="删除" onclick="deletestaff()"/>
+<div th:fragment="div1" id="div1">
+        <table id="table" class="table">
+            <tr>
+                <td>员工编号</td>
+                <td>员工姓名</td>
+                <td>员工性别</td>
+                <td>联系电话</td>
+                <td>入职时间</td>
+                <td>所属部门</td>
+            </tr>
+            <tr th:each="staff:${list}" th:attr="id='c'+${staff.uid}" onclick="trclick(this.id)">
+                <td th:text="${staff.uid}"></td>
+                <td th:text="${staff.uname}"></td>
+                <td th:text="${staff.sex}"></td>
+                <td th:text="${staff.telephone}"></td>
+                <td th:text="${staff.staffDate}"></td>
+                <td th:text="${staff.dname}"></td>
+            </tr>
+        </table>
+    共有<span th:value="无" th:text="${size}"></span>条数据
+    <p>共<span th:value="无" id="allpages" th:text="${pages}"></span>页</p>当前为第<span th:value="无" id="thispage" th:text="${page}"></span>页<br />
+    <button class="layui-btn layui-btn-sm layui-btn-primary"   value="1" onclick="checkpage(this.value)">首页</button>
+    <button class="layui-btn layui-btn-sm layui-btn-primary"  onclick="downpage()">上一页</button>
+    <button class="layui-btn layui-btn-sm layui-btn-primary"  value="1" onclick="checkpage(this.value)">1</button>
+    <button class="layui-btn layui-btn-sm layui-btn-primary" value="2" onclick="checkpage(this.value)">2</button>
+    <button class="layui-btn layui-btn-sm layui-btn-primary" value="3" onclick="checkpage(this.value)">3</button>
+    <button class="layui-btn layui-btn-sm layui-btn-primary"  onclick="onpage()">下一页</button>
+    </div>
+<div id="displayBox">
+    <div class="hd"><a onclick="closethis()">×</a><h3></h3></div>
+    <div class="bd">
+        <iframe scrolling="yes" src="" frameborder="0"></iframe>
+    </div>
+</div>
+</body>
+</html>

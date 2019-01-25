@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/jquery.dcjqaccordion.2.7.js}" class="include"></script>
+    <script th:src="@{/js/jquery.nicescroll.js}"></script>
+    <script th:src="@{/js/jquery.sparkline.js}"></script>
+    <script th:src="@{/js/common-scripts.js}"></script>
+    <script th:src="@{/js/sparkline-chart.js}"></script>
+    <script th:src="@{/js/jquery-1.8.3.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/commonAll.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/style1.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/default.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/layui.css}" rel="stylesheet" type="text/css" />
+    <style>
+        #mimi{
+            display: none;
+        }
+
+    </style>
+    <script>
+        function baocun() {
+            var cid = $("#cid").val();
+            var state=$("#state").val();
+            var purpose=$("#purpose").val();
+            var decoration=$("#decoration").val();
+            var rname =$("#rname").val();
+            var structure =$("#structure").val();
+            var cname = $("#cname").val();
+            var telephone = $("#telephone").val();
+
+                $.ajax({
+                    url:"queryall.do",
+                    type:"post",
+                    data:{
+                        cid:cid,state:state,purpose:purpose,decoration:decoration,
+                        rname:rname,structure:structure, cname:cname, telephone:telephone
+                    },
+                    success:function (data) {
+                        $("#show").html(data);
+                    }
+                })
+
+        }
+
+
+        function update1(html) {
+            $("#div1").html(html);
+        }
+        function openuname(){
+            $("#displayBox h3").text("查看顾问页面");
+            $("#displayBox iframe").attr("src","showstaff.do");
+            $("#displayBox").show();
+        }
+        $("#displayBox .hd a").click(function(){ $("#displayBox").hide(); });
+        function closethis() {
+            $("#displayBox").hide();
+        }
+        function controlneed() {
+            $("#need").css("display","block");
+            $("#mimi").css("display","none");
+        }
+        function controlmimi() {
+            $("#need").css("display","none");
+            $("#mimi").css("display","block");
+        }
+        function confrim() {
+            $("#displayBox").hide();
+        }
+        function gotomain() {
+             parent.gotomain();
+         }
+    </script>
+</head>
+<body>
+<div>
+    客户编号：<input type="text" id="cid">
+    客户来源：<select id="from">
+    <option value="来访">来访</option>
+    <option value="来电">来电</option>
+    <option value="网络">网络</option>
+    <option value="介绍">介绍</option>
+</select>
+    当前状态：<select id="state">
+    <option value="有效客户">有效客户</option>
+    <option value="潜在签约">潜在客户</option>
+    <option value="已签约">已签约</option>
+    <option value="已失效">已失效</option>
+</select>
+</div>
+<button class="layui-btn layui-btn-primary" onclick="controlneed()">客户需求</button>
+<button class="layui-btn layui-btn-primary" onclick="controlmimi()">保密信息</button>
+<div id="need">
+    房屋类型：<select id="purpose">
+    <option value="不限">不限</option>
+    <option value="住宅">住宅</option>
+    <option value="商铺">商铺</option>
+    <option value="仓库">仓库</option>
+</select>
+    装修程度：<select id="decoration">
+    <option value="不限">不限</option>
+    <option value="精装">精装</option>
+    <option value="普装">普装</option>
+    <option value="简装">简装</option>
+</select>
+    所处区域<select id="rname">
+    <option value="不限">不限</option>
+    <option value="东城区">东城区</option>
+    <option value="西城区">西城区</option>
+    <option value="南城区">南城区</option>
+    <option value="汇林区">汇林区</option>
+</select>
+    房间数量<select id="structure">
+    <option value="不限">不限</option>
+    <option value="三室一厅一阳一卫">三室一厅一阳一卫</option>
+    <option value="二室一厅一阳一卫">二室一厅一阳一卫</option>
+    <option value="一室一厅一阳一卫">一室一厅一阳一卫</option>
+    <option value="二室一厅一卫">二室一厅一卫</option>
+    <option value="一室一厅一卫">一室一厅一卫</option>
+</select><br>
+
+    <br>
+    <br>
+</div>
+<div id="mimi">
+    客户姓名:<input type="text" id="cname"> &nbsp;&nbsp;联系电话<input type="text" id="telephone"><br>
+    联系地址:<input type="text" id="dizhi"><br>
+    备注说明:<textarea id="xiangxishuoming" style="width: 600px;height: 100px"></textarea>
+
+</div>
+<div>
+</div>
+<button class="layui-btn" onclick="baocun()">查询</button>
+<button class="layui-btn" onclick="gotomain()">关闭</button>
+<div>
+    <div th:fragment="show" id="show">
+<table id="table" class="layui-table">
+    <tr>
+        <td>当前状态</td>
+        <td>客户名</td>
+        <td>登记日期</td>
+        <td>需求面积</td>
+        <td>所处区域</td>
+        <td>房间数量</td>
+        <td>基础设置</td>
+        <td>装修程度</td>
+        <td>置业顾问</td>
+    </tr>
+    <tr th:each="cust:${list}" th:attr="id='c'+${cust.cid}">
+        <td th:text="${cust.cusState}"></td>
+        <td th:text="${cust.cname}"></td>
+        <td th:text="${cust.inputDate  }"></td>
+        <td th:text="${cust.area}"></td>
+        <td th:text="${cust.rname}"></td>
+        <td th:text="${cust.structure}"></td>
+        <td th:text="${cust.infrastructure}"></td>
+        <td th:text="${cust.decoration}"></td>
+        <td th:text="${cust.uname}"></td>
+    </tr>
+</table>
+</div>
+</div>
+</body>
+</html>

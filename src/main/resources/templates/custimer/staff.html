@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <link th:href="@{/css/layui.css}" rel="stylesheet" type="text/css" />
+    <script>
+        var num=0;
+        function  trclick(uid) {
+            $("tr").css("background-color", "white");
+            $("#" + uid).css("background-color", "pink");
+            num=uid;
+        }
+        function confrim() {
+            parent.confrim();
+            $.ajax({
+                url: "getuname.do",
+                type: "post",
+                data: {
+                    uid: num
+                },
+                success: function (data) {
+                    parent.update1(data);
+                }
+            })
+
+
+        }
+    </script>
+
+</head>
+<body>
+<button class="layui-btn layui-btn-primary" onclick="confrim()">保存</button>
+<table class="layui-table">
+    <tr>
+        <th>顾问编号</th>
+        <th>顾问姓名</th>
+    </tr>
+    <tr th:each="staff:${list}" th:attr="id='u'+${staff.uname}" onclick="trclick(this.id)">
+        <td th:text="${staff.uid}"></td>
+        <td th:text="${staff.uname}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
